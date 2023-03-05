@@ -19,13 +19,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\BlackJack.cpp" />
-    <ClCompile Include="Source\Card.cpp" />
-    <ClCompile Include="Source\Game.cpp" />
+    <ClInclude Include="Source\Headers\Card.h" />
+    <ClInclude Include="Source\Headers\Chip.h" />
+    <ClInclude Include="Source\Headers\Game.h" />
+    <ClInclude Include="Source\Headers\GameItems.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Headers\Card.h" />
-    <ClInclude Include="Source\Headers\Game.h" />
+    <ClCompile Include="BlackJack.cpp" />
+    <ClCompile Include="Source\Card.cpp" />
+    <ClCompile Include="Source\Chip.cpp" />
+    <ClCompile Include="Source\Game.cpp" />
+    <ClCompile Include="Source\GameItems.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resource\Images\background.png" />
+    <Image Include="Resource\Images\Cards skins\Default\jack_of_clubs2.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -97,10 +105,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\VOVA\Desktop\Програмування\Work\Libs\SDL2-devel-2.26.3-VC\SDL2-2.26.3\include;C:\Users\VOVA\Desktop\Програмування\Work\Libs\SDL2_ttf-devel-2.0.12-VC\SDL2_ttf-2.0.12\include;C:\Users\VOVA\Desktop\Програмування\Work\Libs\SDL2_mixer-devel-2.6.3-VC\SDL2_mixer-2.6.3\include;C:\Users\VOVA\Desktop\Програмування\Work\Libs\SDL2_image-devel-2.6.3-VC\SDL2_image-2.6.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\VOVA\Desktop\Програмування\Work\Libs\SDL2-devel-2.26.3-VC\SDL2-2.26.3\lib\x86;C:\Users\VOVA\Desktop\Програмування\Work\Libs\SDL2_ttf-devel-2.0.12-VC\SDL2_ttf-2.0.12\lib\x86;C:\Users\VOVA\Desktop\Програмування\Work\Libs\SDL2_mixer-devel-2.6.3-VC\SDL2_mixer-2.6.3\lib\x86;C:\Users\VOVA\Desktop\Програмування\Work\Libs\SDL2_image-devel-2.6.3-VC\SDL2_image-2.6.3\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
