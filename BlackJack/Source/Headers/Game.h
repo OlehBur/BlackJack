@@ -4,7 +4,13 @@
 #include<SDL_image.h>
 #include<SDL_ttf.h>
 #include<SDL_mixer.h>
+#include<cstdlib>
+#include<ctime>
 #include<string>
+#include<stack>
+#include<list>
+
+#include"Card.h"
 
 using namespace std;
 
@@ -26,8 +32,11 @@ class Game {
 	SDL_Renderer* render{ nullptr };
 	SDL_Texture* background{ nullptr };
 	SDL_Event event;
+	stack<Card> cardPlayDeck/*[52]*/; 
 	bool isRun{ false };
 	
+	void DeckGeneration();
+
 public:
 	static void Error(const char str[]);
 	static SDL_Texture* LoadTexture(const string& filePath, SDL_Renderer* renderTarg);
@@ -38,7 +47,9 @@ public:
 	void Init();
 	void Stop();
 	void Draw();
+
 	bool& IsRun();
+
 	SDL_Event& GetEvent();
 	SDL_Renderer* GetRender();
 

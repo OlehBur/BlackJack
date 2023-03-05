@@ -12,9 +12,15 @@ int main(int argc, char** argv)
 	BlackJack.Init();
 	while (BlackJack.IsRun()) {
 		while (SDL_PollEvent(&BlackJack.GetEvent()) != 0) {
+
 			switch (BlackJack.GetEvent().type) {
+			case SDL_KEYDOWN:
+				if(BlackJack.GetEvent().key.keysym.sym==SDLK_ESCAPE)
+					BlackJack.Stop();
+				break;
+
 			case SDL_MOUSEBUTTONDOWN:
-				BlackJack.Stop();
+				//BlackJack.Stop();
 				break;
 			}
 		}

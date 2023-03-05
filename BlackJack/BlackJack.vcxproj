@@ -20,12 +20,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Headers\Card.h" />
+    <ClInclude Include="Source\Headers\Chip.h" />
     <ClInclude Include="Source\Headers\Game.h" />
+    <ClInclude Include="Source\Headers\GameItems.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BlackJack.cpp" />
     <ClCompile Include="Source\Card.cpp" />
+    <ClCompile Include="Source\Chip.cpp" />
     <ClCompile Include="Source\Game.cpp" />
+    <ClCompile Include="Source\GameItems.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resource\Images\background.png" />

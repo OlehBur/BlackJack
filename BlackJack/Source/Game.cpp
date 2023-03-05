@@ -38,6 +38,9 @@ Game::Game() {
 
 Game::~Game() {
 
+	while (!cardPlayDeck.empty())
+		cardPlayDeck.pop();
+
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(render);
 	SDL_DestroyTexture(background);
@@ -64,8 +67,10 @@ void Game::Init() {
 		-1, SDL_RENDERER_ACCELERATED 
 		| SDL_RENDERER_PRESENTVSYNC);
 
+	background = LoadTexture("Resource\\Images\\background.png", render);
 
 
+	DeckGeneration();
 
 	isRun = true;
 };
@@ -74,10 +79,34 @@ void Game::Stop() {
 	isRun = false;
 };
 
+void Game::DeckGeneration() {
+	srand(time(0));
+	int randIndex{ 0 };
+	list<Card> DefaultDeck;
+	list<Card>::iterator deckIter;
+
+	for (int suit = CARD_SUIT_SPADE; suit <= CARD_SUIT_DIAMOND; suit++)
+		for (int type = CARD_TYPE_TWO; type <= CARD_TYPE_ACE; type++)
+			DefaultDeck.emplace_back(Card(suit, type));
+ 	
+	while (cardPlayDeck.size() != 52) {//init card deck
+		randIndex = (DefaultDeck.size() - 1) ?
+			rand() % (DefaultDeck.size() - 1) : 0;
+		deckIter = DefaultDeck.begin();
+		advance(deckIter, randIndex);
+
+		cardPlayDeck.push(*deckIter);
+
+		DefaultDeck.erase(deckIter);//del its card from list
+	}
+
+	DefaultDeck.clear();
+};
+
+
 void Game::Draw() {
 	SDL_RenderClear(render);
 
-	background = LoadTexture("Resource\\Images\\background.png", render);
 	SDL_RenderCopy(render, background, NULL, NULL);
 
 	SDL_RenderPresent(render);
