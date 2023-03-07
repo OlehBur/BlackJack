@@ -1,12 +1,12 @@
-﻿#include<SDL.h>
+﻿#include <SDL.h>
 
-#include"Source/Headers/Game.h"
-#include"Source/Headers/Card.h"
+#include "Source/Headers/Game.h"
+#include "Source/Headers/Card.h"
 
 
 int main(int argc, char** argv)
 {
-
+	int mouseX, mouseY;
 	Game BlackJack;
 	
 	BlackJack.Init();
@@ -19,16 +19,25 @@ int main(int argc, char** argv)
 					BlackJack.Stop();
 				break;
 
+			case SDL_MOUSEMOTION:
+				SDL_GetMouseState(&mouseX, &mouseY);
+				BlackJack.MouseActivity({ mouseX,mouseY,mouseX,mouseY }, false);
+				break;
+
 			case SDL_MOUSEBUTTONDOWN:
-				//BlackJack.Stop();
+				SDL_GetMouseState(&mouseX, &mouseY);
+				BlackJack.MouseActivity({ mouseX,mouseY,mouseX,mouseY }, true);
+				break;
+
+			case SDL_MOUSEBUTTONUP:
+				SDL_GetMouseState(&mouseX, &mouseY);
+				BlackJack.MouseActivity({mouseX,mouseY,mouseX,mouseY}, false);
 				break;
 			}
 		}
 
 		BlackJack.Draw();
 	}
-	//SDL_Renderer* mainRender = nullptr;
-	//SDL_Texture* texture = Game::LoadTexture("Resource/Images/Cards skins/Default/jack_of_clubs2.png", 0);
 
 	return 0;
 }

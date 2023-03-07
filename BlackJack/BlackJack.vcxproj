@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Headers\Button.h" />
     <ClInclude Include="Source\Headers\Card.h" />
     <ClInclude Include="Source\Headers\Chip.h" />
     <ClInclude Include="Source\Headers\Game.h" />
@@ -26,14 +27,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BlackJack.cpp" />
+    <ClCompile Include="Source\Button.cpp" />
     <ClCompile Include="Source\Card.cpp" />
     <ClCompile Include="Source\Chip.cpp" />
     <ClCompile Include="Source\Game.cpp" />
     <ClCompile Include="Source\GameItems.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resource\Images\background.png" />
     <Image Include="Resource\Images\Cards skins\Default\jack_of_clubs2.png" />
+    <Image Include="Resource\Images\GUI\background.png" />
+    <Image Include="Resource\Images\GUI\buttons.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Resource\TTF\text.ttf" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
