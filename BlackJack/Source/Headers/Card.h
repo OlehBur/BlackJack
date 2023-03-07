@@ -2,6 +2,7 @@
 
 #include "GameItems.h"
 
+
 /*
 Card suit type (integers from 10 to 13), can be:
 	- CARD_SUIT_SPADE,
@@ -51,22 +52,29 @@ typedef const int& CardType;
 #define CARD_TYPE_KING	113
 #define CARD_TYPE_ACE	114
 
-class Card /*: public GameItems*/ {
-	int suit{ 0 };
-	int type{ 0 };
+class Card : public GameItems {
+	int suit{ 0 }, type{ 0 };
+	//static string skin ;
+	float scale;
+	SDL_Texture* topTexture{ nullptr },
+		*suitTexture{ nullptr };
+	bool isUpsideDown = true;
 
 public:
-	//Card();
-	Card(SuitType suit, CardType card);
-	~Card() {};
+	Card(SuitType suit, CardType card, int x=0, int y=0);
+	~Card();
 
+	void InitTexture(SDL_Renderer* render);
 	void AnimateMotion();
-	//void Draw();
+	void Draw(SDL_Renderer* render);
+	void SetScaleTexture(const int& ScreenWidth);
+	static void SetCardSkin(const string& name);
+	//static void DrawDeck(SDL_Renderer* render, int x, int y);
 
 	/*SuitType*/int& GetSuit();
 	/*CardType*/int& GetType();
 
 	bool operator<(Card& card);
 	bool operator>(Card& card);
-	Card operator=(Card card);
+	void/*Card&*/ operator=(Card card);
 };
