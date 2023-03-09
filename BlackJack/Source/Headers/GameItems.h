@@ -4,6 +4,8 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <string>
+#include <list>
+#include <deque>
 
 using namespace std;
 
@@ -14,7 +16,8 @@ using namespace std;
 class GameItems {
 protected:
 	//Point coord;
-	SDL_Rect positionR{ 0 };
+	float x, y;
+	/*SDL_Rect positionR{ 0 };*/
 public:
 	virtual void Draw() {};//=0;
 
@@ -24,6 +27,6 @@ public:
 	static void DrawText(SDL_Renderer* render, const int& x, const int& y, const string& str, const string fontPath = "Resource\\TTF\\text.ttf");
 
 
-	int& GetCoordX();
-	int& GetCoordY();
+	float& GetCoordX();
+	float& GetCoordY();
 };

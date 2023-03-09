@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Resource Files\CardSkins">
+      <UniqueIdentifier>{f94087b1-9ac0-4dec-b349-ff134b47baea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\CardSkins\Default">
+      <UniqueIdentifier>{acd04259-95e3-42ed-9671-d8121794af8d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Headers\Card.h">
@@ -28,6 +34,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Headers\Button.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Headers\Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -50,21 +59,225 @@
     <ClCompile Include="Source\Button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resource\Images\Cards skins\Default\jack_of_clubs2.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="Resource\Images\GUI\buttons.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Resource\Images\GUI\background.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Resource\Images\Cards skins\Default\2_of_clubs.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\2_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\2_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\2_of_spades.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\3_of_clubs.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\3_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\3_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\3_of_spades.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\4_of_clubs.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\4_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\4_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\4_of_spades.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\5_of_clubs.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\5_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\5_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\5_of_spades.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\6_of_clubs.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\6_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\6_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\6_of_spades.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\7_of_clubs.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\7_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\7_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\7_of_spades.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\8_of_clubs.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\8_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\8_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\8_of_spades.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\9_of_clubs.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\9_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\9_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\9_of_spades.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\10_of_clubs.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\10_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\10_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\10_of_spades.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\11_of_clubs.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\11_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\11_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\11_of_spades.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\12_of_clubs.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\12_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\12_of_spades.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\13_of_clubs.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\13_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\13_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\13_of_spades.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\14_of_clubs.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\14_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\14_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\14_of_spades.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\ace_of_spades2.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\black_joker.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\jack_of_clubs.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\jack_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\jack_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\jack_of_spades.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\king_of_clubs.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\king_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\king_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\king_of_spades.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\queen_of_clubs.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\queen_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\queen_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\queen_of_spades.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\red_joker.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\12_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Default\suit.png">
+      <Filter>Resource Files\CardSkins\Default</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
-    <Font Include="Resource\TTF\text.ttf">
+    <Media Include="Resource\Audio\Stardust.mp3">
       <Filter>Resource Files</Filter>
-    </Font>
+    </Media>
   </ItemGroup>
 </Project>

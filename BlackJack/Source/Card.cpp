@@ -1,62 +1,105 @@
 #include "Headers/Card.h"
 
+string Card::skin;
 
-//void Card::SetCardSkin(const string& name = "Default") {
-//	Card::skin = name;
-//};
+void Card::SetCardSkin(const string& name = "Default") {
+	skin = name;
+};
 
-Card::Card(SuitType suit, CardType card, int x, int y) {
+void Card::UpdateRect() {
+	positionR.x = x - positionR.w / 2;
+	positionR.y = y - positionR.h / 2;
+};
+
+Card::Card(SuitType suit, CardType card, SDL_Renderer* render, const int& x, const int& y) {
 	this->suit = suit;
 	this->type = card;
+
+	this->x = x;
+	this->y = y;
+
+	InitTexture(render);
 };
 
-Card::~Card() {
+void Card::Destructor_Card/*~Card*/() {
+	SDL_DestroyTexture(topTexture);
+	SDL_DestroyTexture(suitTexture);
 	topTexture = nullptr;
 	suitTexture = nullptr;
-
 };
 
-void Card::AnimateMotion() {
-
+void Card::AnimateMotion(const int& x, const int& y, const float& deltatime, SDL_Renderer* render) {
+	while (/*positionR.x - positionR.w / 2 != x
+		&& positionR.y - positionR.h / 2 != y*/positionR.x>20) {
+		this->x -= 1 * deltatime;
+		this->y += 1 * deltatime;
+		Draw(render);
+	}
 };
 
 void Card::Draw(SDL_Renderer* render) {
-	//SDL_RenderClear(render);
-	SDL_RenderCopy(render, topTexture/*(isUpsideDown) ? topTexture : suitTexture*/, NULL, &positionR);
-
-	//SDL_RenderPresent(render);
+	UpdateRect();
+	SDL_RenderCopy(render, (isUpsideDown) ? suitTexture : topTexture, NULL, &positionR);
+	SDL_RenderDrawRect(render, &positionR);
 };
 
-void Card::SetScaleTexture(const int& ScreenWidth) {
+void Card::SetScaleTexture(const float& scale) {
+	this->scale = scale;
+
+	SDL_QueryTexture(topTexture, NULL, NULL, &positionR.w, &positionR.h);
+
+	positionR.w *= scale;
+	positionR.h *= scale;
+};
+
+void Card::SetScaleTextureByScreen(const int& screenWidth) {
 	int buffSize = positionR.w;
-	if (positionR.w) {
-		positionR.w = ScreenWidth/11;
+		positionR.w = screenWidth / 11;
 		scale = (float)positionR.w / buffSize;
 		positionR.h *= scale;
-	}
-	else {
-		scale = .5;
-		positionR.w *= scale;
-		positionR.h *= scale;
-	}
 };
 
-//void Card::DrawDeck(SDL_Renderer* render, int x, int y) {
-//
-//};
+void Card::SetCardPos(const int& x, const int& y) {
+	this->x = x;
+	this->y = y;
+	
+	UpdateRect();
+};
+
+void Card::SetUpsideDown(const bool& isUpsideDown) {
+	this->isUpsideDown = isUpsideDown;
+};
 
 void Card::InitTexture(SDL_Renderer* render) {
-	string buffPatch;
-	string skin = "Default";
+	string buffPatchT="",
+		buffPatchS="",
+		skin = "Default",
+		name = "";
 
-	buffPatch = "Resource\\Images\\Cards skins\\"+skin+"\\jack_of_clubs2.png";
-	topTexture = GameItems::LoadTexture(buffPatch, render);
-	//suitTexture = Game::LoadTexture("Resource\\Images\\background.png", render);
+	switch (suit) {
+	case CARD_SUIT_SPADE:
+		name = to_string(type - 100) + "_of_spades.png";
+		break;
+	case CARD_SUIT_CLUB:
+		name = to_string(type - 100) + "_of_clubs.png";
+		break;
+	case CARD_SUIT_HEART:
+		name = to_string(type - 100) + "_of_hearts.png";
+		break;
+	case CARD_SUIT_DIAMOND:
+		name = to_string(type - 100) + "_of_diamonds.png";
+		break;
+	}
+
+	buffPatchT = "Resource\\Images\\Cards skins\\" + skin + "\\" + name;
+	topTexture = GameItems::LoadTexture(buffPatchT, render);
+	buffPatchS = "Resource\\Images\\Cards skins\\" + skin + "\\"+"suit.png";
+	suitTexture = GameItems::LoadTexture(buffPatchS, render);
 	SDL_QueryTexture(topTexture, NULL, NULL, &positionR.w, &positionR.h);
-	positionR.w /= 2;
-	positionR.h /= 2;
-	positionR.x = GetCoordX() - positionR.w / 2;
-	positionR.y = GetCoordY() - positionR.h / 2;
+	positionR.w *= scale;
+	positionR.h *= scale;
+
+	UpdateRect();
 };
 
 int& Card::GetSuit() {
@@ -65,6 +108,10 @@ int& Card::GetSuit() {
 
 int& Card::GetType() {
 	return type;
+};
+
+SDL_Rect& Card::GetRectOnScreen() {
+	return positionR;
 };
 
 bool Card::operator<(Card& card) {

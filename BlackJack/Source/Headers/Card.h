@@ -54,25 +54,34 @@ typedef const int& CardType;
 
 class Card : public GameItems {
 	int suit{ 0 }, type{ 0 };
-	//static string skin ;
-	float scale;
+	float scale{ 0.5f };
 	SDL_Texture* topTexture{ nullptr },
 		*suitTexture{ nullptr };
 	bool isUpsideDown = true;
+	SDL_Rect positionR;
+
+	void UpdateRect();
 
 public:
-	Card(SuitType suit, CardType card, int x=0, int y=0);
-	~Card();
+	static string skin;
+
+	Card(SuitType suit, CardType card, SDL_Renderer* render, const int& x=0, const int& y=0);
+	void Destructor_Card();
 
 	void InitTexture(SDL_Renderer* render);
-	void AnimateMotion();
+	void AnimateMotion(const int& x, const int& y, const float& deltatime, SDL_Renderer* render);
 	void Draw(SDL_Renderer* render);
-	void SetScaleTexture(const int& ScreenWidth);
-	static void SetCardSkin(const string& name);
 	//static void DrawDeck(SDL_Renderer* render, int x, int y);
 
+	void SetScaleTexture(const float& scale);
+	void SetScaleTextureByScreen(const int& screenWidth);
+	void SetCardPos(const int& x, const int& y);
+	void SetUpsideDown(const bool& isUpsideDown);
+	static void SetCardSkin(const string& name);
 	/*SuitType*/int& GetSuit();
 	/*CardType*/int& GetType();
+	SDL_Rect& GetRectOnScreen();
+
 
 	bool operator<(Card& card);
 	bool operator>(Card& card);

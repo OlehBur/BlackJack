@@ -6,27 +6,54 @@
 #include "GameItems.h"
 
 
+enum class ClickedButton{ HIT, STAND, CASH_PLUS, CASH_MINUS, NOTHING};
+
+#define BUTTON_TYPE_HIT			ClickedButton::HIT
+#define BUTTON_TYPE_STAND		ClickedButton::STAND
+#define BUTTON_TYPE_CASH_PLUS	ClickedButton::CASH_PLUS
+#define BUTTON_TYPE_CASH_MINUS	ClickedButton::CASH_MINUS
+#define BUTTON_TYPE_NOTHING		ClickedButton::NOTHING
 
 
 class Button {
+	ClickedButton type;
 	SDL_Texture* texture{ nullptr };
-	//SDL_Renderer* render{ nullptr };
 	SDL_Rect textureR{ NULL }, positionR{ NULL };
-	bool isSelected{ false };
+	bool isSelected{ false }, 
+		isClicked{ false };
 	string tittle{ "" };
 	int buttonTextureW{ 0 },
 		buttonTextureH{ 0 };
+	float scale{ 0.5f };
 
-public:
+	//void UpdateRect();
 	
-	//Button() {};
-	Button(/*const SDL_Rect& position,*/ SDL_Renderer* render, const string& tittle);
-	~Button();
+public:
+	static ClickedButton currentButtonClicked;
 
+	/*
+	the type of the key identifies it, for definitions use: 
+	BUTTON_TYPE_HIT
+	BUTTON_TYPE_STAND
+	BUTTON_TYPE_CASH_PLUS 
+	BUTTON_TYPE_CASH_MINUS
+	BUTTON_TYPE_NOTHING
+	*/
+	Button(SDL_Renderer* render, const ClickedButton& type, const string& tittle);
+	//~Button();
+	void Destructor_Button();
+
+	/*static ClickedButton& GetClickedButton();*/
 	SDL_Rect& GetRect();
+	string& GetTittle();
+	void SetCoord(const int& x, const int& y);
+	void SetTittle(const string& tittle);
 
-	void SetCoord(const SDL_Rect& position);
-	void Update(const SDL_Rect& mousePos, const bool& isClick);
+	/*
+	Button reactions to mouse events
+	(outputs TRUE if the mouse clicked on the button, otherwise FALSE)
+	*/
+	bool Interact(const SDL_Rect& mousePos, const bool& isClick);
 	void Draw(SDL_Renderer* render);
 };
 

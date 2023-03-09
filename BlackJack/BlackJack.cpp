@@ -11,6 +11,7 @@ int main(int argc, char** argv)
 	
 	BlackJack.Init();
 	while (BlackJack.IsRun()) {
+		BlackJack.Update();
 		while (SDL_PollEvent(&BlackJack.GetEvent()) != 0) {
 
 			switch (BlackJack.GetEvent().type) {
@@ -21,17 +22,17 @@ int main(int argc, char** argv)
 
 			case SDL_MOUSEMOTION:
 				SDL_GetMouseState(&mouseX, &mouseY);
-				BlackJack.MouseActivity({ mouseX,mouseY,mouseX,mouseY }, false);
+				BlackJack.MouseActivity({ mouseX, mouseY, 1, 1 }, false);
 				break;
 
 			case SDL_MOUSEBUTTONDOWN:
 				SDL_GetMouseState(&mouseX, &mouseY);
-				BlackJack.MouseActivity({ mouseX,mouseY,mouseX,mouseY }, true);
+				BlackJack.MouseActivity({ mouseX, mouseY, 1, 1 }, true);
 				break;
 
 			case SDL_MOUSEBUTTONUP:
 				SDL_GetMouseState(&mouseX, &mouseY);
-				BlackJack.MouseActivity({mouseX,mouseY,mouseX,mouseY}, false);
+				BlackJack.MouseActivity({ mouseX, mouseY, 1, 1 }, false);
 				break;
 			}
 		}

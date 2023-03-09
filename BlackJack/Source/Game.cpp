@@ -12,6 +12,8 @@ Game::Game() {
 	if (!isInit) {
 		SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 		isInit = true;
+		if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 2048/*~2kB*/) < 0)//44100
+			Error("Mixer init error");//Mix_GetError()
 	}
 	else {
 		Error("The Game class cannot have more than one object.");
@@ -21,11 +23,16 @@ Game::Game() {
 
 Game::~Game() {
 
+	for (auto button : buttons)
+		button.Destructor_Button();
 	buttons.clear();
 
-	//while (!cardPlayDeck.empty())
-	//	cardPlayDeck.pop();
-	////cardPlayDeck.clear();
+	players.clear();
+
+	while (!cardPlayDeck.empty()) {
+		cardPlayDeck.top().Destructor_Card();
+		cardPlayDeck.pop();
+	}
 
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(render);
@@ -34,6 +41,8 @@ Game::~Game() {
 	window = nullptr;
 	render = nullptr;
 	background = nullptr;
+	musicBackground = nullptr;
+	cardSong = nullptr;
 
 	Mix_Quit();
 	TTF_Quit();
@@ -44,7 +53,7 @@ Game::~Game() {
 void Game::Init() {
 	SDL_GetCurrentDisplayMode(0, &display);//get display params
 	DECK_POS_X = display.w - display.w / 5;
-	DECK_POS_Y = display.h / 8;
+	DECK_POS_Y = display.h / 5;
 
 	window = SDL_CreateWindow("BlackJack",
 		0, 0,
@@ -56,23 +65,33 @@ void Game::Init() {
 
 	background = GameItems::LoadTexture("Resource\\Images\\GUI\\background.png", render);
 
+	//music
+	musicBackground = Mix_LoadMUS("Resource\\Audio\\Stardust.mp3");
+	//cardSong = Mix_LoadWAV("gin.wav");
+	//buttonClick
 
 	DeckGeneration();
 
 	buttons.reserve(4);
 
-	buttons.emplace_back(Button(render, "HIT"));//Hit
-	buttons.back().SetCoord({
-		int(display.w - buttons.back().GetRect().w /** 1.2*/),	//x
-		int(display.h - buttons.back().GetRect().h /** 1.3*/),	//y 
-		0, 0 });
+	buttons.emplace_back(Button(render, BUTTON_TYPE_HIT, "HIT"));//Hit
+	buttons.back().SetCoord(
+		int(display.w - buttons.back().GetRect().w * 1.2),	//x
+		int(display.h - buttons.back().GetRect().h * 1.3));	//y 
+		
+	buttons.back().SetTittle("HIT");
 
-	buttons.emplace_back(Button(render, "STAND" )); //Stand
-	buttons.back().SetCoord({
-		int(buttons.back().GetRect().w /** 1.2*/- buttons.back().GetRect().w),	//x
-		int(display.h - buttons.back().GetRect().h /** 1.3*/),	//y 
-		0, 0 });
-	
+	buttons.emplace_back(Button(render, BUTTON_TYPE_STAND, "STAND" )); //Stand
+	buttons.back().SetCoord(
+		int(buttons.back().GetRect().w * 1.2- buttons.back().GetRect().w),	//x
+		int(display.h - buttons.back().GetRect().h * 1.3));	//y 
+
+	buttons.back().SetTittle("STAND");
+
+	players.push_back(Player(true));
+	players.back().SetCardsCoord(display.w / 2, display.h - display.h / 11);
+	players.push_back(Player(false));
+	players.back().SetCardsCoord(display.w / 2, display.h / 11);
 
 	isRun = true;
 };
@@ -82,18 +101,41 @@ void Game::Stop() {
 };
 
 void Game::Update() {
+	prevTime = currentTime;
+	currentTime = SDL_GetTicks();
+	deltaTime = (currentTime - prevTime) / 100.0f;
 
+	if (!Mix_PlayingMusic() && isMusicOn)
+		Mix_PlayMusic(musicBackground, -1);//2 param - cnt of rep, if -1 wil rep until don`t say stop
+	/*else if (Mix_PausedMusic() && isMusicOn)
+		Mix_ResumeMusic();
+	else Mix_PauseMusic();*/
 };
 
 void Game::MouseActivity(const SDL_Rect& mousePos, const bool& isClick) {
-	if (isClick && cardPlayDeck.size()) {
-		cardPlayDeck.pop();
-		cardPlayDeck.top().InitTexture(render);
-		cardPlayDeck.top().SetScaleTexture(display.w);
-	}
-	for (int b = 0; b < buttons.size(); b++)
-		buttons.at(b).Update(mousePos, isClick);
-	Update();
+
+	for (auto button : buttons) 
+		if (button.Interact(mousePos, isClick)) {
+			//playMusclickButt
+
+			switch (Button::currentButtonClicked/*GetClickedButton()*/) {
+			case ClickedButton::HIT:
+				TakeCard(players.front());
+				break;
+
+			case ClickedButton::STAND:
+				SkipTake();
+				break;
+
+			case ClickedButton::CASH_PLUS:
+				break;
+
+			case ClickedButton::CASH_MINUS:
+				break;
+
+			}
+		}
+
 };
 
 void Game::DeckGeneration() {
@@ -103,55 +145,70 @@ void Game::DeckGeneration() {
 	list<Card>::iterator deckIter;
 
 	for (int suit = CARD_SUIT_SPADE; suit <= CARD_SUIT_DIAMOND; suit++)
-		for (int type = CARD_TYPE_TWO; type <= CARD_TYPE_ACE; type++)
-			DefaultDeck.emplace_back(Card(suit, type/*, DECK_POS_X+1, DECK_POS_Y-1*/));
- 	
-	//cardPlayDeck.reserve(52);
-	while (cardPlayDeck.size() != 52) {//init card deck
+		for (int type = CARD_TYPE_TWO; type <= CARD_TYPE_ACE; type++) {
+			DefaultDeck.emplace_back(Card(suit, type, render/*, DECK_POS_X, DECK_POS_Y*/));
+			DefaultDeck.back().SetScaleTextureByScreen(display.w);
+		}
+
+	while (cardPlayDeck.size() != 52 && DefaultDeck.size() > 0) {//init card deck
 		randIndex = (DefaultDeck.size() - 1) ?
 			rand() % (DefaultDeck.size() - 1) : 0;
 		deckIter = DefaultDeck.begin();
 		advance(deckIter, randIndex);
 
 		cardPlayDeck.push(*deckIter);
-		//cardPlayDeck.emplace_back(*deckIter);
 
 		DefaultDeck.erase(deckIter);//del its card from list
 	}
-
-	cardPlayDeck.top().InitTexture(render);
-	cardPlayDeck.top().SetScaleTexture(display.w);
 
 	DefaultDeck.clear();
 };
 
 
 void Game::Draw() {
+	/*frameTime += deltaTime;*/
 
 	SDL_RenderClear(render);
-	
+
 	//draw Backgr
 	SDL_RenderCopy(render, background, NULL, NULL);
-	
-	//draw deck
-	if (cardPlayDeck.size()) {
-		//int cardDeckHeight = (cardPlayDeck.size() > 25) ?
-		//	25 : cardPlayDeck.size();
+
+	//draw deck cards
+	if (cardPlayDeck.size() > 0) {
 		cardPlayDeck.top().MoveToCoord(DECK_POS_X, DECK_POS_Y);
-		for (int card = 0; card < cardPlayDeck.size(); card++) {
-			(card&1)?
-				cardPlayDeck.top().MoveToCoord(cardPlayDeck.top().GetCoordX() + 2, cardPlayDeck.top().GetCoordY() - 2):
-				cardPlayDeck.top().MoveToCoord(cardPlayDeck.top().GetCoordX(), cardPlayDeck.top().GetCoordY());
-			cardPlayDeck.top().Draw(render);
-		}
+			for (int card = 1; card < cardPlayDeck.size(); card++) {
+				(card & 1) ?
+					cardPlayDeck.top().MoveToCoord(cardPlayDeck.top().GetCoordX() + 2, cardPlayDeck.top().GetCoordY() - 2) :
+					cardPlayDeck.top().MoveToCoord(cardPlayDeck.top().GetCoordX(), cardPlayDeck.top().GetCoordY());
+					cardPlayDeck.top().Draw(render);
+			}
 	}
+
+	//player cards
+	for (int p = 0; p < players.size(); p++)
+		players.at(p).DrawCards(render);
 
 	//gui elements
 	for (int b = 0; b < buttons.size(); b++)
 		buttons.at(b).Draw(render);
 
+
 	SDL_RenderPresent(render);
+
 }
+
+void Game::TakeCard(Player& player) {
+	if (!cardPlayDeck.empty()) {
+		//cardPlayDeck.top().AnimateMotion(player.GetCardCoordX(), player.GetCardCoordY(), deltaTime, render);
+		cardPlayDeck.top().SetUpsideDown(false);
+		player.AddCard(cardPlayDeck.top());
+		cardPlayDeck.pop();
+	}
+};
+
+void Game::SkipTake() {
+	//index ++ on players vect
+};
 
 bool& Game::IsRun() {
 	return isRun;
@@ -163,4 +220,8 @@ SDL_Event& Game::GetEvent() {
 
 SDL_Renderer* Game::GetRender() {
 	return render;
+};
+
+float& Game::GetDeltaTime() {
+	return deltaTime;
 };

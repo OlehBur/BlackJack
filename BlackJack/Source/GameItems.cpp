@@ -40,16 +40,16 @@ SDL_Texture* GameItems::LoadTexture(const string& filePath, SDL_Renderer* render
 
 
 void GameItems::MoveToCoord(const int& x, const int& y) {
-	positionR.x = x;
-	positionR.y = y;
+	/*positionR.*/this->x = x;
+	/*positionR.*/this->y = y;
 
 };
 
 
-int& GameItems::GetCoordX() {
-	return positionR.x;
+float& GameItems::GetCoordX() {
+	return /*positionR.*/x;
 };
 
-int& GameItems::GetCoordY() {
-	return positionR.y;
+float& GameItems::GetCoordY() {
+	return /*positionR.*/y;
 };
