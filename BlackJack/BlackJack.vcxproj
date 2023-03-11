@@ -108,6 +108,9 @@
     <Image Include="Resource\Images\GUI\buttons.png" />
   </ItemGroup>
   <ItemGroup>
+    <Media Include="Resource\Audio\buttonClick.wav" />
+    <Media Include="Resource\Audio\chip.wav" />
+    <Media Include="Resource\Audio\flipCard.mp3" />
     <Media Include="Resource\Audio\Stardust.mp3" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

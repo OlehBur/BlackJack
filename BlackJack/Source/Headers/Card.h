@@ -4,6 +4,15 @@
 
 
 /*
+placement on the screen affects the angle of rotation of the opponent's cards relative to the player,
+	can be: 
+	- CARD_PLACE_DEFAULT,
+	- CARD_PLACE_RIGHT,
+	- CARD_PLACE_LEFT
+*/
+typedef const int& ScreenPlacement;
+
+/*
 Card suit type (integers from 10 to 13), can be:
 	- CARD_SUIT_SPADE,
 	- CARD_SUIT_CLUB,
@@ -30,6 +39,10 @@ Card type (integers from 102 to 114), can be:
 */
 typedef const int& CardType;
 
+	//Placement Types
+#define CARD_PLACE_DEFAULT 0
+#define CARD_PLACE_RIGHT 1
+#define CARD_PLACE_LEFT 2
 
 	//Suit Types
 #define CARD_SUIT_SPADE		10 //перев серц
@@ -56,30 +69,42 @@ class Card : public GameItems {
 	int suit{ 0 }, type{ 0 };
 	float scale{ 0.5f };
 	SDL_Texture* topTexture{ nullptr },
-		*suitTexture{ nullptr };
+		* suitTexture{ nullptr };
 	bool isUpsideDown = true;
-	SDL_Rect positionR;
+	SDL_Rect positionR{ NULL };
+	float angleRotaton = 0.0f;
+	const int cardMovingSpeed = 100;
 
 	void UpdateRect();
 
 public:
 	static string skin;
 
-	Card(SuitType suit, CardType card, SDL_Renderer* render, const int& x=0, const int& y=0);
-	void Destructor_Card();
+	Card(SuitType suit, CardType card, SDL_Renderer* render, ScreenPlacement sp = CARD_PLACE_DEFAULT, Coordinate x = 0, Coordinate y = 0);
+	void /*~Card*/Destructor_Card();
 
 	void InitTexture(SDL_Renderer* render);
-	void AnimateMotion(const int& x, const int& y, const float& deltatime, SDL_Renderer* render);
+	/*
+	return true if card coordinates have reached end point 
+	*/
+	bool AnimateMotion(const Point& p1, const float& deltatime, SDL_Renderer* render, bool isNormalPlacement);
 	void Draw(SDL_Renderer* render);
 	//static void DrawDeck(SDL_Renderer* render, int x, int y);
 
 	void SetScaleTexture(const float& scale);
 	void SetScaleTextureByScreen(const int& screenWidth);
-	void SetCardPos(const int& x, const int& y);
+	void SetCardPos(Coordinate x, Coordinate y);
+	void SetPlacement(ScreenPlacement sp);
 	void SetUpsideDown(const bool& isUpsideDown);
 	static void SetCardSkin(const string& name);
+
 	/*SuitType*/int& GetSuit();
 	/*CardType*/int& GetType();
+	/*
+	return value of cards, 
+	(number cards return corresponding values, face cards return 10, and ace returns -1)
+	*/
+	int GetValue();
 	SDL_Rect& GetRectOnScreen();
 
 

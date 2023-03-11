@@ -6,12 +6,15 @@
 #include <string>
 #include <list>
 #include <deque>
+#include <vector>
 
 using namespace std;
 
-//struct Point {
-//	int x, y;
-//};
+typedef const int& Coordinate;
+
+struct Point {
+	int x, y;
+};
 
 class GameItems {
 protected:
@@ -21,10 +24,10 @@ protected:
 public:
 	virtual void Draw() {};//=0;
 
-	void MoveToCoord(const int& x, const int& y);
+	void MoveToCoord(Coordinate x, Coordinate y);
 	
 	static SDL_Texture* LoadTexture(const std::string& filePath, SDL_Renderer* renderTarg);
-	static void DrawText(SDL_Renderer* render, const int& x, const int& y, const string& str, const string fontPath = "Resource\\TTF\\text.ttf");
+	static void DrawText(SDL_Renderer* render, Coordinate x, Coordinate y, const string& str, const string fontPath = "Resource\\TTF\\text.ttf");
 
 
 	float& GetCoordX();

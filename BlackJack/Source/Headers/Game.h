@@ -5,7 +5,6 @@
 #include <cstdlib>
 #include <ctime>
 #include <stack>
-#include <vector>
 #include "Card.h"
 #include "Chip.h"
 #include "Button.h"
@@ -29,7 +28,9 @@ class Game {
 	SDL_Renderer* render{ nullptr };
 	SDL_Texture* background{ nullptr };
 	Mix_Music* musicBackground{ nullptr };
-	Mix_Chunk* cardSong{ nullptr };
+	Mix_Chunk* cardFlip_Song{ nullptr },
+		*buttonClick_Song{ nullptr },
+		*chip_Song{ nullptr };
 	SDL_Event event{ 0 };
 
 	SDL_DisplayMode display;
@@ -37,19 +38,31 @@ class Game {
 	stack<Card> cardPlayDeck/*[52]*/;
 	vector <Button> buttons;
 	vector <Player> players;
+	//Player dealer= Player(false);
 
 	int DECK_POS_X{ 0 }, DECK_POS_Y{ 0 };
-	bool isRun{ false }, isMusicOn{ true };
+	bool isRun{ false },
+		isMusicOn{ true },
+		distributionCards{ false },
+		startBets{ false };
+	bool topCardIsMove{ false };
 
 	//timer
-	float frameTime{ 0 }, deltaTime{ 0 }, speed = 50.0f;
+	float frameTime{ 0.0f },
+		deltaTime{ 0.0f }, 
+		playersTurnTime{ 0.0f },
+		playersBetTime{ 0.0f };
 	int prevTime{ 0 }, currentTime{ 0 };
+	short int currentPlayer = { 0 }/*, pleyersCnt = 4*/;
 	
 	void DeckGeneration();
 
 	//GamePlay
-	void TakeCard(Player& player);
+	void TakeCard(Player& player, bool isDealer = false);
 	void SkipTake();
+	void EndGame();
+	void NPCGamePlay(Player& player);
+	void NPCMadeBet(Player& player);
 
 	//windows
 	void InitWindows();

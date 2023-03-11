@@ -27,7 +27,8 @@ class Button {
 	float scale{ 0.5f };
 
 	//void UpdateRect();
-	
+	void InitTexture();
+
 public:
 	static ClickedButton currentButtonClicked;
 
@@ -46,7 +47,7 @@ public:
 	/*static ClickedButton& GetClickedButton();*/
 	SDL_Rect& GetRect();
 	string& GetTittle();
-	void SetCoord(const int& x, const int& y);
+	void SetCoord(Coordinate x, Coordinate y);
 	void SetTittle(const string& tittle);
 
 	/*

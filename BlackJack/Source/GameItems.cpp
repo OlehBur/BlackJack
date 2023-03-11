@@ -1,6 +1,6 @@
 #include "Headers/GameItems.h"
 
-void GameItems::DrawText(SDL_Renderer* render, const int& x, const int& y, const string& str, const string fontPath) {
+void GameItems::DrawText(SDL_Renderer* render, Coordinate x, Coordinate y, const string& str, const string fontPath) {
 	TTF_Font* appFont = TTF_OpenFont(fontPath.c_str(), 20);
 	if (appFont == NULL)
 		TTF_GetError();
@@ -39,7 +39,7 @@ SDL_Texture* GameItems::LoadTexture(const string& filePath, SDL_Renderer* render
 };
 
 
-void GameItems::MoveToCoord(const int& x, const int& y) {
+void GameItems::MoveToCoord(Coordinate x, Coordinate y) {
 	/*positionR.*/this->x = x;
 	/*positionR.*/this->y = y;
 

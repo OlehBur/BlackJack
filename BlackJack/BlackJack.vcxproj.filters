@@ -279,5 +279,14 @@
     <Media Include="Resource\Audio\Stardust.mp3">
       <Filter>Resource Files</Filter>
     </Media>
+    <Media Include="Resource\Audio\buttonClick.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="Resource\Audio\chip.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="Resource\Audio\flipCard.mp3">
+      <Filter>Resource Files</Filter>
+    </Media>
   </ItemGroup>
 </Project>
