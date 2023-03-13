@@ -2,15 +2,20 @@
 
 #include "Card.h"
 #include "Chip.h"
+#include "Tittles.h"
 
 class Player {
-	bool isUser{ false };
+	bool isUser{ false },
+		isDealer{ false },
+		isMadeBet{ false },
+		isStand{ false };
 
 	deque<Card> playerCards;
 	Point cardsCenter{ 0, 0 }, 
 		chipCenter{ 0, 0 };
 	int cntAces{ 0 };
 	int playerPlacement{ 0 };
+	Tittle playerTittle;
 
 	int cash{ 0 };
 	vector<Chip> betShips;
@@ -18,23 +23,41 @@ class Player {
 	void AddCash(const int& cash);
 	void SubCash(const int& cash);
 
+	void ChipsUpdatePlacement();
+	void DrawTittle(SDL_Renderer* render);
+
 public:
 
-	Player(ScreenPlacement sp, const bool& isUser = false, const int& defaultCash = 1000);
-	~Player();
+	Player(ScreenPlacement sp,
+		SDL_Renderer* render, 
+		const bool& isUser = false,
+		const int& defaultCash = 1000,
+		const bool& isDealer = false);
+	void Destructor_Player/*~Player*/();
 
 
-	void AddChip(const Chip& chip/*, const int& count=1*/);
-	void SubChip();
+	bool AddChip(const Chip& chip, const bool& isFree = false);
+	bool SubChip();
 	void AddCard(const Card& card);
 	void PlayerCardsCentered();
 
 	void CardsUpatePlacement(bool allCards = false);
 
 	//bool& IsMadeBet()
-	bool& IsUser();
-	Card& GetLastCard();
+
+	void SetBet();
+	void SetStand();
 	void SetCardsCoord(const Point& coords);
+	void SetGameResult(const string& str, 
+		SDL_Renderer* render, 
+		SDL_Color color,
+		SDL_Color colorOutline);
+
+	bool& IsUser();
+	bool& IsDealer();
+	bool& IsMadeBet();
+	bool& IsStand();
+	Card& GetLastCard();
 	Point& GetCardCoord();
 	ScreenPlacement GetPlacement();
 	/*
@@ -44,6 +67,7 @@ public:
 	int GetCardsValue();
 	int& GetAcesCount();
 	int& GetCash();
+	vector<Chip>/*::iterator*/ GetChips();
 
 	void DrawCards(SDL_Renderer* render);
 	void DrawChips(SDL_Renderer* render);

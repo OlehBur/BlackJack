@@ -1,25 +1,55 @@
 #include "Headers/GameItems.h"
 
-void GameItems::DrawText(SDL_Renderer* render, Coordinate x, Coordinate y, const string& str, const string fontPath) {
-	TTF_Font* appFont = TTF_OpenFont(fontPath.c_str(), 20);
-	if (appFont == NULL)
-		TTF_GetError();
-	SDL_Color textColor = { 121,55,0,255 };
-	SDL_Surface* textSurface = TTF_RenderText_Solid(appFont, str.c_str(), textColor);
-	SDL_Texture* textT = SDL_CreateTextureFromSurface(render, textSurface);
-	SDL_Rect textRect = { x,y,0,0 };
+SDL_DisplayMode display;
 
+void GameItems::DrawText(SDL_Renderer* render,
+	Coordinate x, Coordinate y, const string& str, 
+	const int& sizeText, const string fontPath){
+
+	SDL_Surface* textS{ nullptr },
+		* outlineS{ nullptr };
+	SDL_Texture* textT{ nullptr };
+	TTF_Font* appFont{ nullptr },
+		* outlineFont{ nullptr };
+	SDL_Rect textR{ NULL };
 	
-	SDL_QueryTexture(textT, NULL, NULL, &textRect.w, &textRect.h);//get w h text
+	int outlineSize = ((sizeText / 40)<1)?
+		1 : sizeText / 40;
+	
+	appFont = TTF_OpenFont(fontPath.c_str(), sizeText);
+	outlineFont = TTF_OpenFont(fontPath.c_str(), sizeText);
+	TTF_SetFontOutline(outlineFont, outlineSize);
 
-//TTF_RenderText_Shaded(appFont, str.c_str(), textColor, {0,0,0,255});
-	SDL_RenderCopy(render, textT, NULL, &textRect);//draw text
+	outlineS = TTF_RenderText_Blended(outlineFont, str.c_str(), { 102,0,0, 255 });
+	textS = TTF_RenderText_Solid(appFont, str.c_str(), { 204,102,0,255 });
+	textR = { 
+		x- textS->w/2,
+		y- textS->h/2, 
+		textS->w, 
+		textS->h 
+	};
+	
+	//just font
+	textT = SDL_CreateTextureFromSurface(render, textS);
+	SDL_FreeSurface(textS);
+	SDL_RenderCopy(render, textT, NULL, &textR);
 
-	SDL_FreeSurface(textSurface);//del data
-	textSurface = nullptr;
+	//outline font
+	textT = SDL_CreateTextureFromSurface(render, outlineS);
+	SDL_FreeSurface(outlineS);
+	textR.y-=3;//fix outline calculating error
+	SDL_RenderCopy(render, textT, NULL, &textR);
+
+	//SDL_SetSurfaceBlendMode(textS, SDL_BLENDMODE_BLEND);
+	//SDL_BlitSurface(textS, NULL, outlineS, NULL/*&textR*/);
+
+	textS = nullptr;
+	outlineS = nullptr;
+	
 	SDL_DestroyTexture(textT);
 	textT = nullptr;
 	appFont = nullptr;
+	outlineFont = nullptr;
 }
 
 SDL_Texture* GameItems::LoadTexture(const string& filePath, SDL_Renderer* renderTarg) {

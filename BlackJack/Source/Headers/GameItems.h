@@ -7,27 +7,36 @@
 #include <list>
 #include <deque>
 #include <vector>
+//#include "Tittles.h"
 
 using namespace std;
 
 typedef const int& Coordinate;
 
 struct Point {
-	int x, y;
+	int x{ 0 }, y{ 0 };
 };
 
+extern SDL_DisplayMode display;
+
+
 class GameItems {
+
 protected:
 	//Point coord;
-	float x, y;
+	float x{ 0.0f }, y{ 0.0f };
 	/*SDL_Rect positionR{ 0 };*/
+
 public:
 	virtual void Draw() {};//=0;
 
-	void MoveToCoord(Coordinate x, Coordinate y);
+	/*virtual*/ void MoveToCoord(Coordinate x, Coordinate y);
 	
 	static SDL_Texture* LoadTexture(const std::string& filePath, SDL_Renderer* renderTarg);
-	static void DrawText(SDL_Renderer* render, Coordinate x, Coordinate y, const string& str, const string fontPath = "Resource\\TTF\\text.ttf");
+	static void DrawText(SDL_Renderer* render,
+		Coordinate x, Coordinate y, const string& str,
+		const int& sizeText = 40,
+		const string fontPath = "Resource\\TTF\\text.ttf");
 
 
 	float& GetCoordX();

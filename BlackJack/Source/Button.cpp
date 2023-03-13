@@ -21,10 +21,14 @@ void Button::InitTexture() {
 	positionR.w = buttonTextureW * scale;
 };
 
-Button::Button(SDL_Renderer* render, const ClickedButton& type, const string& tittle) {
-	this->tittle = tittle; 
-	texture = GameItems::LoadTexture("Resource\\Images\\GUI\\buttons.png", render);
+Button::Button(SDL_Renderer* render, const ClickedButton& type,/* const string& tittle,*/ const int& sizeText) {
+	this->tittle.InitFont(render, 0, 0, sizeText/*const string fontPath*/);
 	this->type = type;
+
+	if (type == BUTTON_TYPE_HIT || type == BUTTON_TYPE_STAND || type == BUTTON_TYPE_CASH || type == BUTTON_TYPE_CHANGE_SKIN)
+		texture = GameItems::LoadTexture("Resource\\Images\\GUI\\buttons.png", render);
+	else //CASH_PLUS, CASH_MINUS, DEFAULT_MINI
+		texture = GameItems::LoadTexture("Resource\\Images\\GUI\\buttons1.png", render);
 
 	InitTexture();
 };
@@ -32,7 +36,7 @@ Button::Button(SDL_Renderer* render, const ClickedButton& type, const string& ti
 void Button::Destructor_Button/*~Button*/() {
 	SDL_DestroyTexture(texture);
 	texture = nullptr;
-	
+	tittle.Destructor_Tittle();// ~Tittle();
 };
 
 SDL_Rect& Button::GetRect() {
@@ -40,17 +44,22 @@ SDL_Rect& Button::GetRect() {
 };
 
 string& Button::GetTittle() {
-	return tittle;
+	return tittle.GetText();
 };
 
 
 void Button::SetCoord(Coordinate x, Coordinate y) {
 	positionR.x = x;
 	positionR.y = y;
+
+	tittle.MoveToCoord(x + positionR.w / 2, y + positionR.h / 2);
+
+	//tittle.UpdateRect();
 };
 
-void Button::SetTittle(const string& tittle) {
-	this->tittle = tittle;
+void Button::SetTittle(const string& tittle, SDL_Renderer * render) {
+	this->tittle.SetText(tittle, render);
+	//this->tittle.UpdateRect();
 };
 
 bool Button::Interact(const SDL_Rect& mousePos, const bool& isClick) {
@@ -79,12 +88,14 @@ bool Button::Interact(const SDL_Rect& mousePos, const bool& isClick) {
 //};
 
 void Button::Draw(SDL_Renderer* render) {
-	//UpdateRect();
-	//SDL_RenderDrawRect(render, &textureR);
-	//SDL_RenderDrawRect(render, &positionR);
+
 	SDL_RenderCopy(render, 
 		texture, 
 		&textureR, 
 		&positionR);
-	//GameItems::DrawText(render, 300, 300, tittle);
+	tittle.Draw(render);
 };
+
+//bool Button::operator==(const ClickedButton& type) const {
+//	return this->type == type;
+//}

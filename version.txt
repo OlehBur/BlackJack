@@ -1,0 +1,9 @@
+v1.0.2.0b:
+- added main window tittles;
+- added rendering of multiple chip decks;
+- visualization values the player's deck of cards;
+- added chips visualization;
+- draw tittles for buttons;
+- added final game score header drawing for each player;
+- tittles class;
+- change ttf.

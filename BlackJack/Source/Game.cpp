@@ -14,6 +14,7 @@ Game::Game() {
 		isInit = true;
 		if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 2048/*~2kB*/) < 0)//44100
 			Error("Mixer init error");//Mix_GetError()
+		TTF_Init();
 	}
 	else {
 		Error("The Game class cannot have more than one object.");
@@ -23,10 +24,18 @@ Game::Game() {
 
 Game::~Game() {
 
-	for (auto button : buttons)
-		button.Destructor_Button();
+	//for (auto button : buttons)//create copyes
+	//	button.Destructor_Button();
+	for (int b = 0; b < buttons.size(); b++)
+		buttons.at(b).Destructor_Button();
 	buttons.clear();
 
+	for (map <int, Tittle >::iterator t = tittles.begin(); t!=tittles.end(); advance(t, 1))
+		/*tittles.at(t)*/t->second.Destructor_Tittle();
+	tittles.clear();
+
+	for (int p = 0; p < players.size(); p++)
+		players.at(p).Destructor_Player();
 	players.clear();
 
 	while (!cardPlayDeck.empty()) {
@@ -52,6 +61,133 @@ Game::~Game() {
 	SDL_Quit();
 };
 
+
+void Game::CardAnimIntercep() {
+	if (topCardIsMove) {//only when cards is moving
+		frameTime += deltaTime;
+		if (frameTime >= 0.05f) {
+			frameTime = 0;
+			if (players.at(currentPlayer).GetLastCard().AnimateMotion(players.at(currentPlayer).GetCardCoord(),
+				deltaTime, render, !players.at(currentPlayer).GetPlacement())) {//placement return invert numb, if default(0) - 1(true)
+				players.at(currentPlayer).PlayerCardsCentered();
+				players.at(currentPlayer).CardsUpatePlacement();
+
+				topCardIsMove = false;
+
+				SkipPlayer();
+			}
+		}
+	}
+};
+
+
+void Game::InitPlayers() {
+	players.reserve(4);
+	/*dealer = Player(false);*/
+	//dealer.SetCardsCoord({ display.w / 2, display.h / 3 });
+
+	players.push_back(Player(CARD_PLACE_DEFAULT, render, false, 200/*5000*/, true));//dealer
+	players.back().SetCardsCoord({
+		display.w / 2,
+		display.h / 4 });
+
+	players.push_back(Player(CARD_PLACE_RIGHT, render));
+	players.back().SetCardsCoord({ 
+		display.w - display.w / 20,
+		int(display.h / 1.9) });
+
+	players.push_back(Player(CARD_PLACE_DEFAULT, render, true));
+	players.back().SetCardsCoord({
+		display.w / 2, 
+		int(display.h / 1.01) });
+
+	players.push_back(Player(CARD_PLACE_LEFT, render));
+	players.back().SetCardsCoord({
+		display.w / 20, 
+		int(display.h / 1.9) });
+};
+
+void Game::InitTittles() {
+	//(*tittles).emplace(TITTLE_YOUR_TURN, Tittle("Your turn, player!", render,
+//	display.w / 2, display.h / 2, 80));
+	tittles.emplace(TITTLE_YOUR_TURN, Tittle());
+	tittles[TITTLE_YOUR_TURN].InitFont(render, display.w / 2, display.h / 2.1, 100);
+	tittles[TITTLE_YOUR_TURN].SetText("Your turn, player!", render);
+
+	tittles.emplace(TITTLE_MADE_BET, Tittle());
+	tittles[TITTLE_MADE_BET].InitFont(render, display.w / 2, display.h / 1.8, 60);
+	tittles[TITTLE_MADE_BET].SetText("Place your bet by clicking on \"+\" or \"-\".", render);
+
+	tittles.emplace(TITTLE_MADE_BET1, Tittle());
+	tittles[TITTLE_MADE_BET1].InitFont(render, display.w / 2, display.h / 1.6, 60);
+	tittles[TITTLE_MADE_BET1].SetText("Then click on your cashe to confirm the bet.", render);
+
+	tittles.emplace(TITTLE_TAKE_OR_SKIP, Tittle());
+	tittles[TITTLE_TAKE_OR_SKIP].InitFont(render, display.w / 2, display.h / 1.8, 60);
+	tittles[TITTLE_TAKE_OR_SKIP].SetText("You can take a card by clicking on the \"HIT\"",
+		render);
+	tittles.emplace(TITTLE_TAKE_OR_SKIP1, Tittle());
+	tittles[TITTLE_TAKE_OR_SKIP1].InitFont(render, display.w / 2, display.h / 1.6, 60);
+	tittles[TITTLE_TAKE_OR_SKIP1].SetText(" or miss a turn by clicking on the \"STAND\"",
+		render);
+	
+};
+
+void Game::InitButtons() {
+	buttons.reserve(4);
+
+	buttons.emplace_back(Button(render, BUTTON_TYPE_HIT, 60));//Hit
+	buttons.back().SetCoord(
+		int(display.w - buttons.back().GetRect().w * 1.2),	//x
+		int(display.h - buttons.back().GetRect().h * 2.1));	//y 
+
+	buttons.back().SetTittle("HIT", render);
+
+	buttons.emplace_back(Button(render, BUTTON_TYPE_STAND, 60)); //Stand
+	buttons.back().SetCoord(
+		int(display.w - buttons.back().GetRect().w * 1.2/*buttons.back().GetRect().w * 1.2 - buttons.back().GetRect().w*/),	//x
+		int(display.h - buttons.back().GetRect().h * 1.1));	//y 
+
+	buttons.back().SetTittle("STAND", render);
+
+	buttons.emplace_back(Button(render, BUTTON_TYPE_CASH, 60)); //Cash
+	buttons.back().SetCoord(
+		display.w/20,
+		int(display.h-buttons.back().GetRect().h * 2.1));
+	buttons.back().SetTittle("1000 $", render); 
+	cashButtonIndx = buttons.size() - 1;
+
+	buttons.emplace_back(Button(render, BUTTON_TYPE_CASH_MINUS, 80)); //minus
+	buttons.back().SetCoord(
+		display.w / 20,
+		int(display.h-buttons.back().GetRect().h * 1.1));
+	buttons.back().SetTittle("-", render);
+
+
+	buttons.emplace_back(Button(render, BUTTON_TYPE_CASH_PLUS, 70)); //plus
+	buttons.back().SetCoord(
+		display.w / 20 + buttons.at(0).GetRect().w- buttons.back().GetRect().w,//0 - index of default button such as cash. align along the edge of this button
+		int(display.h-buttons.back().GetRect().h * 1.1));
+	buttons.back().SetTittle("+", render);
+
+
+	buttons.emplace_back(Button(render, BUTTON_TYPE_CHANGE_SKIN, 30)); //change skin
+	buttons.back().SetCoord(
+		int(buttons.back().GetRect().w / 2 * .3),
+		display.h / 15);//int(buttons.back().GetRect().h/2 * .6));
+	buttons.back().SetTittle("Change Card Skin", render);
+
+
+	buttons.emplace_back(Button(render, BUTTON_TYPE_HELP, 70)); //help
+	buttons.back().SetCoord(
+		int(display.w - buttons.back().GetRect().w * 1.1),
+		display.h / 15);//int(buttons.back().GetRect().h/4));
+	buttons.back().SetTittle("?", render);
+
+
+};
+
+
 void Game::Init() {
 	SDL_GetCurrentDisplayMode(0, &display);//get display params
 	DECK_POS_X = display.w - display.w / 5;
@@ -76,44 +212,19 @@ void Game::Init() {
 	//cardfs deck
 	DeckGeneration();
 
+		//gui
 	//buttons
-	buttons.reserve(4);
-
-	buttons.emplace_back(Button(render, BUTTON_TYPE_HIT, "HIT"));//Hit
-	buttons.back().SetCoord(
-		int(display.w - buttons.back().GetRect().w * 1.2),	//x
-		int(display.h - buttons.back().GetRect().h * 1.3));	//y 
-		
-	buttons.back().SetTittle("HIT");
-
-	buttons.emplace_back(Button(render, BUTTON_TYPE_STAND, "STAND" )); //Stand
-	buttons.back().SetCoord(
-		int(buttons.back().GetRect().w * 1.2- buttons.back().GetRect().w),	//x
-		int(display.h - buttons.back().GetRect().h * 1.3));	//y 
-
-	buttons.back().SetTittle("STAND");
+	InitButtons();
+	
+	//titles
+	InitTittles();
 
 	//players
-	players.reserve(4);
-	/*dealer = Player(false);*/
-	//dealer.SetCardsCoord({ display.w / 2, display.h / 3 });
-	
-	players.push_back(Player(CARD_PLACE_DEFAULT));//dealer
-	players.back().SetCardsCoord({ display.w / 2, display.h / 4 });
-
-	players.push_back(Player(CARD_PLACE_RIGHT));
-	players.back().SetCardsCoord({ display.w - display.w / 20, int(display.h / 1.7) });
-	players.push_back(Player(CARD_PLACE_DEFAULT, true));
-	players.back().SetCardsCoord({ display.w / 2, int(display.h / 1.01 )});
-	players.push_back(Player(CARD_PLACE_LEFT));
-	players.back().SetCardsCoord({ display.w / 20,  int(display.h / 1.7) });
-	
-	
-	//currentPlayer = players.size()-1;
-	//TakeCard(players.at(currentPlayer), true);//add card for dealer
+	InitPlayers();
 
 	isRun = true;
-	/*distributionCards*/startBets = true;
+	distributionCards = false;
+	startBets = true;
 };
 
 void Game::Stop() {
@@ -132,33 +243,90 @@ void Game::Update() {
 	else Mix_PauseMusic();*/
 	/*if(distributionCards)
 		TakeCard(dealer, true);*/
-	if (players.at(0).GetCardsCount() == 2) //if dealer has two cards
+	if (players.at(0).GetCardsCount() >= 2) //if dealer has two cards
 		distributionCards = false;
+
+	for (int p = 1; p < players.size(); p++) {
+		if (players.at(p).GetCardsValue() >= 8 && !players.at(p).IsStand() && players.at(p).GetCardsValue() <= 12)//if player not eliminated
+			WinChips(players.at(p), players.at(p).GetChips().size());// add win chips to player if he has a 21 points
+		else if (players.at(p).GetCardsValue() >= 13 && !players.at(p).IsStand())
+			PlayerBust(players.at(p));
+	}
+
+	int playersBetCnt = 0;
+	int playersStandCnt = 0;
+
+	for (auto player : players) {
+		(player.IsMadeBet()) ?
+			playersBetCnt++ : playersBetCnt = 0;
+		(player.IsStand()) ?
+			playersStandCnt++ : playersStandCnt = 0;
+	}
+
+	if (playersBetCnt == players.size() && startBets) {//checking if everyone has bid
+		startBets = false;
+		distributionCards = true;
+	}
+	if(playersStandCnt==players.size()-1)//checking if everyone clicked the stand except the dealer
+		EndGame();
+	
+	
 };
 
 void Game::MouseActivity(const SDL_Rect& mousePos, const bool& isClick) {
 
 	for (int b=0; b<buttons.size(); b++/*auto button : buttons*/) 
 		if (buttons.at(b).Interact(mousePos, isClick) 
-			&& !topCardIsMove 
-			&& players.at(currentPlayer).IsUser() 
-			&& !distributionCards && !startBets) {
+			/*&& !topCardIsMove 
+			&& players.at(currentPlayer).IsUser() */
+			/*&& !distributionCards*/ /*&& !startBets*/) {
 			Mix_PlayChannel(-1, buttonClick_Song, 0);
 
-			switch (Button::currentButtonClicked/*GetClickedButton()*/) {
+			switch (Button::currentButtonClicked) {
 			case ClickedButton::HIT:
+				if(!topCardIsMove 
+					&& players.at(currentPlayer).IsUser() 
+					&& !players.at(currentPlayer).IsStand()
+					&& !distributionCards 
+					&& !startBets)
 				TakeCard(players.at(currentPlayer));//always user iter
 				break;
 
 			case ClickedButton::STAND:
-				SkipTake();
+				if(!topCardIsMove
+					&& players.at(currentPlayer).IsUser()
+					&& !players.at(currentPlayer).IsStand()
+					&& !distributionCards
+					&& !startBets){
+					SkipTake();
+				}
 				break;
 
 			case ClickedButton::CASH_PLUS:
+				if(startBets && players.at(currentPlayer).IsUser())
+					players.at(currentPlayer).AddChip(Chip(false, render));
 				break;
 
 			case ClickedButton::CASH_MINUS:
+				if (startBets && players.at(currentPlayer).IsUser())
+					players.at(currentPlayer).SubChip();
 				break;
+
+			case ClickedButton::CASH:
+				if (startBets && players.at(currentPlayer).GetChips().size()) {//if player has a bet of chips
+					players.at(currentPlayer).SetBet();//completion of finish 
+					SkipPlayer();//go to next player
+				}
+				break;
+
+			case ClickedButton::HELP:
+				isHelpOn = !isHelpOn;
+				break;
+
+			case ClickedButton::CHANGE_SKIN:
+				Card::ChangeCardSkin();
+				break;
+			//default://NOTHING
 
 			}
 		}
@@ -211,66 +379,30 @@ void Game::Draw() {
 	}
 
 	//player chips
-	//for(auto player : players)
-	//	if(player.IsMadeBet())AddChip(const Chip & chip)
+	for (auto p : players)
+		p.DrawChips(render);
 
 	if (startBets) {
-		if(!players.at(currentPlayer).IsUser())
+		if (!players.at(currentPlayer).IsUser())//if other players
 			playersBetTime += deltaTime;
+		else {
+			//(*tittles).operator[](TITTLE_YOUR_TURN).Draw(render);
+			tittles[TITTLE_YOUR_TURN].Draw(render);
+			tittles[TITTLE_MADE_BET].Draw(render);
+			tittles[TITTLE_MADE_BET1].Draw(render);
+		}
 
 		if (playersBetTime >= 35.0f) {
 			playersBetTime = 0;
 			NPCMadeBet(players.at(currentPlayer));
+			SkipPlayer(); //only for skip players Index
 		}
 	}
 	else {
 		//auto take cards
-		//if (distributionCards)
-		//	TakeCard(players.at(players.size()-1), true);
-		if (!players.at(currentPlayer).IsUser() || distributionCards) {//waiting when turn not user
-			playersTurnTime += deltaTime;
-			if (playersTurnTime >= /*(distributionCards) ? 10.0f :*/ 40.0f) {
-				playersTurnTime = 0;
-
-				if (!distributionCards && !currentPlayer) //dealer turn during notStart game
-					SkipTake();
-				else if (!distributionCards)
-					NPCGamePlay(players.at(currentPlayer));//Take or skip
-				else if (distributionCards)
-					TakeCard(players.at(currentPlayer), !currentPlayer);//if currentPlayer = 0 - is dealer
-			}
-		}
-
+		AutoPlay();
 		//animation cards
-		if (topCardIsMove) {//only when cards is moving
-			frameTime += deltaTime;
-			if (frameTime >= 0.05f) {
-				frameTime = 0;
-				if (players.at(currentPlayer).GetLastCard().AnimateMotion(players.at(currentPlayer).GetCardCoord(),
-					deltaTime, render, !players.at(currentPlayer).GetPlacement())) {//placement return invert numb, if default(0) - 1(true)
-					players.at(currentPlayer).PlayerCardsCentered();
-					players.at(currentPlayer).CardsUpatePlacement();
-					//players.at(currentPlayer).GetLastCard().SetPlacement(players.at(currentPlayer).GetPlacement());
-					Mix_PlayChannel(-1, cardFlip_Song, 0);
-					topCardIsMove = false;
-
-					//if (!currentPlayer) {  //isDealer
-					//	if (players.at(currentPlayer).GetCardsCount() >= 2) {
-					//		distributionCards = false;
-					//		SkipTake();
-					//	}
-					//}
-					//else {//isn`t dealer
-					SkipTake();
-					//(currentPlayer < players.size() - 1) ?
-					//	currentPlayer++ :
-					//	currentPlayer = 0;
-
-					/*EndGame();*///if last player - switch to first
-				//}
-				}
-			}
-		}
+		CardAnimIntercep();
 
 		//player cards
 		for (int p = 0; p < players.size(); p++)
@@ -278,17 +410,46 @@ void Game::Draw() {
 	}
 
 	//gui elements
+	//Button b(render, BUTTON_TYPE_CASH, 60);
+	//find(buttons.begin(), buttons.back(), b);
+	string buffCash = to_string(players.at(currentPlayer).GetCash()) + " $";
+	if(players.at(currentPlayer).IsUser())
+		buttons.at(cashButtonIndx).SetTittle(buffCash, render);
+
 	for (int b = 0; b < buttons.size(); b++)
 		buttons.at(b).Draw(render);
+	if (!distributionCards && !startBets && players.at(currentPlayer).IsUser() && !players.at(currentPlayer).IsStand()) {
+		tittles[TITTLE_YOUR_TURN].Draw(render);
+		tittles[TITTLE_TAKE_OR_SKIP].Draw(render);
+		tittles[TITTLE_TAKE_OR_SKIP1].Draw(render);
+	}
 
+	if (isHelpOn)
+		DrawHelpTittles();
 
 	SDL_RenderPresent(render);
 
 }
 
+void Game::AutoPlay() {
+	if (!players.at(currentPlayer).IsUser() || distributionCards) {//waiting when turn not user
+		playersTurnTime += deltaTime;
+		if (playersTurnTime >= /*(distributionCards) ? 10.0f :*/ 40.0f) {
+			playersTurnTime = 0;
+
+			if ((!distributionCards && players.at(currentPlayer).IsDealer()) /*|| !players.at(currentPlayer).IsStand()*/) //dealer turn during notStart game OR if player stand
+				SkipPlayer();
+			else if (!distributionCards && !players.at(currentPlayer).IsUser())//when the handing of cards is completed(distributionCards),
+				//provided that currplayer not user - turn on AI other for players
+				NPCGamePlay(players.at(currentPlayer));//Take or skip
+			else if (distributionCards)//auto distribution of cards to everyone
+				TakeCard(players.at(currentPlayer), players.at(currentPlayer).IsDealer());
+		}
+	}
+};
+
 void Game::TakeCard(Player& player, bool isDealer) {
-	if (!cardPlayDeck.empty()
-		/*&& !(isDealer *//*&& player.GetCardsCount()==2)*/) {//not dealer with 2 cards
+	if (!cardPlayDeck.empty()) {
 
 		Mix_PlayChannel(-1, cardFlip_Song, 0);
 
@@ -300,38 +461,28 @@ void Game::TakeCard(Player& player, bool isDealer) {
 		player.AddCard(cardPlayDeck.top());
 
 		cardPlayDeck.pop();
-
-		//int val = player.GetCardsValue();
-
-		/*if (player.GetCardsValue() >= 21)
-			..*/
-			//(currentPlayer == (pleyersCnt - 1)) ? currentPlayer = 0 : currentPlayer++;
 	}
 };
 
 void Game::SkipTake() {
+	players.at(currentPlayer).SetStand();
+	SkipPlayer();
+};
+
+void Game::SkipPlayer() {
 	(currentPlayer < players.size() - 1) ?
 		currentPlayer++ :
 		currentPlayer = 0;
+	
+	if (players.at(currentPlayer).IsStand())
+		SkipPlayer();
+};
+
+void Game::EndGame(){
+	players.at(0).GetLastCard().SetUpsideDown(false); //dealer card set upside down 
 };
 
 void Game::NPCGamePlay(Player& player) {
-	//if (rand() % 2 == 0) {
-	//	if ((player.GetCardsValue() + player.GetAcesCount()) < 21) {
-	//		TakeCard(player);
-	//	}
-	//	else {
-	//		SkipTake();
-	//	}
-	//}
-	//else {
-	//	if ((player.GetCardsValue() + player.GetAcesCount() * 11) < 21) {
-	//		TakeCard(player);
-	//	}
-	//	else {
-	//		SkipTake();
-	//	}
-	//}
 	if (rand() % 2 == 0)
 		((player.GetCardsValue() + player.GetAcesCount()) < 21) ?
 		TakeCard(player) :
@@ -342,8 +493,41 @@ void Game::NPCGamePlay(Player& player) {
 };
 
 void Game::NPCMadeBet(Player& player) {
-	for (int bets = 0; bets < rand() % (player.GetCash() / 200); bets++)
-		player.AddChip(Chip(!currentPlayer, player.GetCardCoord().x, player.GetCardCoord().y, render));
+	int chipsBetCnt = (!currentPlayer) ?//dealer has one universal chip 
+		1 :
+		1 + rand() % ((player.GetCash() - 200) / 200);//minimal bet is one chip
+
+	if (!currentPlayer) { //isDealer
+		chipsBetCnt = player.GetCash() / 200;
+		for (int bets = 0; bets < chipsBetCnt; bets++) 
+			player.AddChip(Chip(!currentPlayer, render)/*, chipsBetCnt*/);
+	}
+	else {
+		for (int bets = 0; bets < chipsBetCnt; bets++) {
+			player.AddChip(Chip(!currentPlayer, render));
+			Mix_PlayChannel(-1, chip_Song, 0);
+		}
+	}
+	
+	player.SetBet();
+};
+
+void Game::DrawHelpTittles() {
+
+};
+
+void Game::WinChips(Player& player, const int& cntChips) {
+	for (int c = 0; c < cntChips; c++) 
+		player.AddChip(players.at(0).GetChips().back(), true); //-take- copy chip from the dealer and give it to player
+		//players.at(0).SubChip();
+
+	player.SetStand();
+	player.SetGameResult("WIN", render, { 255, 128, 0, 255 }, { 0,0,0,255 });
+};
+
+void Game::PlayerBust(Player& player) {
+	player.SetStand();
+	player.SetGameResult("BUST", render, { 0, 204, 0, 255 }, { 0,0,0,255 });
 };
 
 bool& Game::IsRun() {

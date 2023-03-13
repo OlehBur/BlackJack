@@ -5,6 +5,8 @@
 #include <cstdlib>
 #include <ctime>
 #include <stack>
+#include <map>
+#include <algorithm>
 #include "Card.h"
 #include "Chip.h"
 #include "Button.h"
@@ -17,7 +19,7 @@ class Ptr {
 
 public:
 	Ptr(T* ptr) {pointer = ptr; }
-	~Ptr() {delete pointer;}
+	//~Ptr() {delete pointer;}
 
 	T& operator*() {return *pointer;}
 };
@@ -32,19 +34,20 @@ class Game {
 		*buttonClick_Song{ nullptr },
 		*chip_Song{ nullptr };
 	SDL_Event event{ 0 };
-
-	SDL_DisplayMode display;
+	//SDL_DisplayMode display;
 
 	stack<Card> cardPlayDeck/*[52]*/;
 	vector <Button> buttons;
 	vector <Player> players;
-	//Player dealer= Player(false);
+	//Ptr<map <int, Tittle>> tittles=new map <int, Tittle>;
+	map <int, Tittle > tittles;
 
 	int DECK_POS_X{ 0 }, DECK_POS_Y{ 0 };
 	bool isRun{ false },
 		isMusicOn{ true },
 		distributionCards{ false },
-		startBets{ false };
+		startBets{ false },
+		isHelpOn{ false };
 	bool topCardIsMove{ false };
 
 	//timer
@@ -53,18 +56,31 @@ class Game {
 		playersTurnTime{ 0.0f },
 		playersBetTime{ 0.0f };
 	int prevTime{ 0 }, currentTime{ 0 };
-	short int currentPlayer = { 0 }/*, pleyersCnt = 4*/;
+
+	short int currentPlayer = { 0 },
+		cashButtonIndx{ 0 };
 	
 	void DeckGeneration();
 
 	//GamePlay
+	void AutoPlay();
 	void TakeCard(Player& player, bool isDealer = false);
 	void SkipTake();
+	void SkipPlayer();
 	void EndGame();
 	void NPCGamePlay(Player& player);
 	void NPCMadeBet(Player& player);
+	void DrawHelpTittles();
+	void WinChips(Player& player, const int& cntChips);
+	void PlayerBust(Player& player);
 
+	/*catches animation card requests and processes them*/
+	void CardAnimIntercep();
+
+	void InitPlayers();
 	//windows
+	void InitTittles();
+	void InitButtons();
 	void InitWindows();
 	void OpendWindow();
 
@@ -79,7 +95,6 @@ public:
 	void Update();
 	void MouseActivity(const SDL_Rect& mousePos, const bool& isClick);
 	void Draw();
-
 
 	bool& IsRun();
 

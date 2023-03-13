@@ -25,6 +25,7 @@
     <ClInclude Include="Source\Headers\Game.h" />
     <ClInclude Include="Source\Headers\GameItems.h" />
     <ClInclude Include="Source\Headers\Player.h" />
+    <ClInclude Include="Source\Headers\Tittles.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BlackJack.cpp" />
@@ -34,8 +35,62 @@
     <ClCompile Include="Source\Game.cpp" />
     <ClCompile Include="Source\GameItems.cpp" />
     <ClCompile Include="Source\Player.cpp" />
+    <ClCompile Include="Source\Tittles.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Resource\Images\Cards skins\Classic\10_of_clubes.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\10_of_diamonds.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\10_of_hearts.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\10_of_spides.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\11_of_clubes.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\11_of_diamonds.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\11_of_hearts.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\11_of_spides.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\12_of_clubes.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\12_of_diamonds.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\12_of_hearts.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\12_of_spides.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\13_of_clubes.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\13_of_diamonds.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\13_of_hearts.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\13_of_spides.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\14_of_clubes.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\14_of_diamonds.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\14_of_hearts.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\14_of_spades.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\2_of_clubes.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\2_of_diamonds.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\2_of_hearts.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\2_of_spades.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\3_of_clubes.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\3_of_diamonds.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\3_of_hearts.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\3_of_spades.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\4_of_clubes.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\4_of_diamonds.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\4_of_hearts.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\4_of_spades4.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\5_of_clubes.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\5_of_diamonds.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\5_of_hearts.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\5_of_spades.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\6_of_clubes.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\6_of_diamonds.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\6_of_hearts.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\6_of_spades.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\7_of_clubes.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\7_of_diamonds.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\7_of_hearts.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\7_of_spades.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\8_of_clubes.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\8_of_diamonds.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\8_of_hearts.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\8_of_spades.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\9_of_clubes.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\9_of_diamonds.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\9_of_hearts.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\9_of_spides.png" />
+    <Image Include="Resource\Images\Cards skins\Classic\suit.png" />
     <Image Include="Resource\Images\Cards skins\Default\10_of_clubs.png" />
     <Image Include="Resource\Images\Cards skins\Default\10_of_diamonds.png" />
     <Image Include="Resource\Images\Cards skins\Default\10_of_hearts.png" />
@@ -104,14 +159,72 @@
     <Image Include="Resource\Images\Cards skins\Default\queen_of_spades.png" />
     <Image Include="Resource\Images\Cards skins\Default\red_joker.png" />
     <Image Include="Resource\Images\Cards skins\Default\suit.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\10_of_clubs.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\10_of_diamonds.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\10_of_hearts.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\10_of_spades.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\11_of_clubs.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\11_of_diamonds.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\11_of_hearts.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\11_of_spades.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\12_of_clubs.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\12_of_diamonds.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\12_of_hearts.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\12_of_spades.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\13_of_clubs.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\13_of_diamonds.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\13_of_hearts.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\13_of_spades.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\14_of_clubs.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\14_of_diamonds.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\14_of_hearts.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\14_of_spades.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\2_of_clubs.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\2_of_diamonds.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\2_of_hearts.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\2_of_spades.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\3_of_clubs.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\3_of_diamonds.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\3_of_hearts.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\3_of_spades.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\4_of_clubs.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\4_of_diamonds.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\4_of_hearts.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\4_of_spades.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\5_of_clubs.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\5_of_diamonds.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\5_of_hearts.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\5_of_spades.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\6_of_clubs.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\6_of_diamonds.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\6_of_hearts.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\6_of_spades.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\7_of_clubs.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\7_of_diamonds.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\7_of_hearts.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\7_of_spades.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\8_of_clubs.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\8_of_diamonds.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\8_of_hearts.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\8_of_spades.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\9_of_clubs.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\9_of_diamonds.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\9_of_hearts.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\9_of_spades.png" />
+    <Image Include="Resource\Images\Cards skins\MiddleAges\suit.png" />
+    <Image Include="Resource\Images\Chips\chips.png" />
     <Image Include="Resource\Images\GUI\background.png" />
     <Image Include="Resource\Images\GUI\buttons.png" />
+    <Image Include="Resource\Images\GUI\buttons1.png" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Resource\Audio\buttonClick.wav" />
     <Media Include="Resource\Audio\chip.wav" />
     <Media Include="Resource\Audio\flipCard.mp3" />
     <Media Include="Resource\Audio\Stardust.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Resource\TTF\times new roman.ttf" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -187,7 +300,7 @@
       <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Users\VOVA\Desktop\Програмування\Work\Libs\SDL2-devel-2.26.3-VC\SDL2-2.26.3\lib\x86;C:\Users\VOVA\Desktop\Програмування\Work\Libs\SDL2_ttf-devel-2.0.12-VC\SDL2_ttf-2.0.12\lib\x86;C:\Users\VOVA\Desktop\Програмування\Work\Libs\SDL2_mixer-devel-2.6.3-VC\SDL2_mixer-2.6.3\lib\x86;C:\Users\VOVA\Desktop\Програмування\Work\Libs\SDL2_image-devel-2.6.3-VC\SDL2_image-2.6.3\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>

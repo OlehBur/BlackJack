@@ -1,14 +1,31 @@
 #include "Headers/Card.h"
 
-string Card::skin;
+int Card::skin{ CARD_SKIN_DEFAULT };
 
-void Card::SetCardSkin(const string& name = "Default") {
-	skin = name;
+void Card::ChangeCardSkin() {
+	(skin < CARD_SKIN_CLASSIC) ?
+		skin++ :
+		skin = CARD_SKIN_DEFAULT;
 };
 
 void Card::UpdateRect() {
 	positionR.x = x - positionR.w / 2;
 	positionR.y = y - positionR.h / 2;
+};
+
+void Card::UpdateSkin() {
+	switch (skin) {
+	case CARD_SKIN_DEFAULT:
+
+		break;
+	case CARD_SKIN_MIDDLE_AGES:
+
+		break;
+
+	case CARD_SKIN_CLASSIC:
+
+		break;
+	}
 };
 
 Card::Card(SuitType suit, CardType card, SDL_Renderer* render, ScreenPlacement sp, Coordinate x, Coordinate y) {
@@ -24,44 +41,19 @@ Card::Card(SuitType suit, CardType card, SDL_Renderer* render, ScreenPlacement s
 };
 
 void Card::Destructor_Card/*~Card*/() {
-	SDL_DestroyTexture(topTexture);
-	SDL_DestroyTexture(suitTexture);
-	topTexture = nullptr;
-	suitTexture = nullptr;
+	for (int i = 0; i < 3; i++) {
+		SDL_DestroyTexture(topTexture[i]);
+		SDL_DestroyTexture(suitTexture[i]);
+		topTexture[i] = nullptr;
+		suitTexture[i] = nullptr;
+	}
 };
 
 bool Card::AnimateMotion(const Point& p1, const float& deltatime, SDL_Renderer* render, bool isNormalPlacement) {
 	Point buffP = p1;
 	if(isNormalPlacement)
 		buffP.y -= positionR.h / 2;
-	//switch (sp) {
-	//case CARD_PLACE_LEFT:
-	//	buffP.x -= positionR.w / 2;
-	//	break;
-	//case CARD_PLACE_RIGHT:
-	//	buffP.x += positionR.w / 2;
-	//	break;
-	//default:
-	//	buffP.y -= positionR.h / 2;
-	//}
-		
-		
-	//buffP.x -= positionR.h / 2;
-		//int buffCordX = this->x - x,
-	//	buffCordY = this->y - y;
-	//	float lenX = buffCordX / 100, 
-	//	lenY = buffCordY / 100;
-
-	//	Point beginP = p1;
-
-	//while (beginP.x != this->x || beginP.y != this->y) {
-	//	//this->x += x * deltatime/* * cardMovingSpeed*/ * lenX;
-	//	//this->y += y * deltatime /** cardMovingSpeed */* lenY;
-	//	beginP.x = round(beginP.x + lenX);
-	//	beginP.y = round(beginP.y + lenY);
-	//	Draw(render);
-	//}
-
+	
 	Point difference = { buffP.x - this->x, buffP.y - this->y };
 
 	if (difference.x == 0 || /*&& */difference.y == 0)
@@ -83,20 +75,18 @@ bool Card::AnimateMotion(const Point& p1, const float& deltatime, SDL_Renderer* 
 void Card::Draw(SDL_Renderer* render) {
 	UpdateRect();
 	SDL_RenderCopyEx(render,
-		(isUpsideDown) ? suitTexture : topTexture,
+		(isUpsideDown) ? suitTexture[skin - 80] : topTexture[skin - 80],
 		NULL,
 		&positionR,
 		angleRotaton,
 		NULL,
 		SDL_FLIP_NONE);
-	//SDL_RenderCopy(render, (isUpsideDown) ? suitTexture : topTexture, NULL, &positionR);
-	//SDL_RenderDrawRect(render, &positionR);
 };
 
 void Card::SetScaleTexture(const float& scale) {
 	this->scale = scale;
 
-	SDL_QueryTexture(topTexture, NULL, NULL, &positionR.w, &positionR.h);
+	SDL_QueryTexture(topTexture[skin-80], NULL, NULL, &positionR.w, &positionR.h);
 
 	positionR.w *= scale;
 	positionR.h *= scale;
@@ -137,9 +127,9 @@ void Card::SetUpsideDown(const bool& isUpsideDown) {
 };
 
 void Card::InitTexture(SDL_Renderer* render) {
-	string buffPatchT="",
-		buffPatchS="",
-		skin = "Default",
+	string buffPatchT[3],
+		buffPatchS[3],
+		skinFolder[3] = { "Default","MiddleAges","Classic" },
 		name = "";
 
 	switch (suit) {
@@ -157,11 +147,14 @@ void Card::InitTexture(SDL_Renderer* render) {
 		break;
 	}
 
-	buffPatchT = "Resource\\Images\\Cards skins\\" + skin + "\\" + name;
-	topTexture = GameItems::LoadTexture(buffPatchT, render);
-	buffPatchS = "Resource\\Images\\Cards skins\\" + skin + "\\"+"suit.png";
-	suitTexture = GameItems::LoadTexture(buffPatchS, render);
-	SDL_QueryTexture(topTexture, NULL, NULL, &positionR.w, &positionR.h);
+	for (int i = 0; i < 3; i++) {//ini all skins
+		buffPatchT[i]= "Resource\\Images\\Cards skins\\" + skinFolder[i] + "\\" + name;
+		topTexture[i] = GameItems::LoadTexture(buffPatchT[i], render);
+		buffPatchS[i] = "Resource\\Images\\Cards skins\\" + skinFolder[i] + "\\" + "suit.png";
+		suitTexture[i]= GameItems::LoadTexture(buffPatchS[i], render);
+	}
+	
+	SDL_QueryTexture(topTexture[0], NULL, NULL, &positionR.w, &positionR.h);
 	positionR.w *= scale;
 	positionR.h *= scale;
 
@@ -174,6 +167,10 @@ int& Card::GetSuit() {
 
 int& Card::GetType() {
 	return type;
+};
+
+bool& Card::IsUpsideDown() {
+	return isUpsideDown;
 };
 
 int Card::GetValue() {

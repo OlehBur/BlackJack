@@ -19,6 +19,12 @@
     <Filter Include="Resource Files\CardSkins\Default">
       <UniqueIdentifier>{acd04259-95e3-42ed-9671-d8121794af8d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\CardSkins\MiddleAges">
+      <UniqueIdentifier>{e96604d3-8b86-45e8-9f9e-880dcb17d2c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\CardSkins\Classic">
+      <UniqueIdentifier>{a7f13be2-e253-43f6-aad0-f71013db29cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Headers\Card.h">
@@ -37,6 +43,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Headers\Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Headers\Tittles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -60,6 +69,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tittles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -274,6 +286,330 @@
     <Image Include="Resource\Images\Cards skins\Default\suit.png">
       <Filter>Resource Files\CardSkins\Default</Filter>
     </Image>
+    <Image Include="Resource\Images\Chips\chips.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\2_of_clubs.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\2_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\2_of_hearts.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\2_of_spades.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\3_of_clubs.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\3_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\3_of_hearts.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\3_of_spades.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\4_of_clubs.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\4_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\4_of_hearts.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\4_of_spades.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\5_of_clubs.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\5_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\5_of_hearts.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\5_of_spades.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\6_of_clubs.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\6_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\6_of_hearts.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\6_of_spades.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\7_of_clubs.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\7_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\7_of_hearts.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\7_of_spades.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\8_of_clubs.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\8_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\8_of_hearts.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\8_of_spades.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\9_of_clubs.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\9_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\9_of_hearts.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\9_of_spades.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\10_of_clubs.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\10_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\10_of_hearts.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\10_of_spades.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\11_of_clubs.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\11_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\11_of_hearts.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\11_of_spades.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\12_of_clubs.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\12_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\12_of_hearts.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\12_of_spades.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\13_of_clubs.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\13_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\13_of_hearts.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\13_of_spades.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\14_of_clubs.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\14_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\14_of_hearts.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\14_of_spades.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\MiddleAges\suit.png">
+      <Filter>Resource Files\CardSkins\MiddleAges</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\2_of_clubes.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\2_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\2_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\2_of_spades.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\3_of_clubes.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\3_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\3_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\3_of_spades.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\4_of_clubes.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\4_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\4_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\4_of_spades4.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\5_of_clubes.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\5_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\5_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\5_of_spades.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\6_of_clubes.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\6_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\6_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\6_of_spades.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\7_of_clubes.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\7_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\7_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\7_of_spades.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\8_of_clubes.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\8_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\8_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\8_of_spades.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\9_of_clubes.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\9_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\9_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\9_of_spides.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\10_of_clubes.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\10_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\10_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\10_of_spides.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\11_of_clubes.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\11_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\11_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\11_of_spides.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\12_of_clubes.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\12_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\12_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\12_of_spides.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\13_of_clubes.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\13_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\13_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\13_of_spides.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\14_of_clubes.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\14_of_diamonds.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\14_of_hearts.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\14_of_spades.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\Cards skins\Classic\suit.png">
+      <Filter>Resource Files\CardSkins\Classic</Filter>
+    </Image>
+    <Image Include="Resource\Images\GUI\buttons1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Media Include="Resource\Audio\Stardust.mp3">
@@ -288,5 +624,10 @@
     <Media Include="Resource\Audio\flipCard.mp3">
       <Filter>Resource Files</Filter>
     </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Resource\TTF\times new roman.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
   </ItemGroup>
 </Project>
