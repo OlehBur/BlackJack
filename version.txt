@@ -6,4 +6,6 @@ v1.0.2.0b:
 - draw tittles for buttons;
 - added final game score header drawing for each player;
 - tittles class;
+- addded the ability to change map textures in runtime;
+- added two new packs of the card textures;
 - change ttf.
