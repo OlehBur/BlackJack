@@ -13,21 +13,6 @@ void Card::UpdateRect() {
 	positionR.y = y - positionR.h / 2;
 };
 
-void Card::UpdateSkin() {
-	switch (skin) {
-	case CARD_SKIN_DEFAULT:
-
-		break;
-	case CARD_SKIN_MIDDLE_AGES:
-
-		break;
-
-	case CARD_SKIN_CLASSIC:
-
-		break;
-	}
-};
-
 Card::Card(SuitType suit, CardType card, SDL_Renderer* render, ScreenPlacement sp, Coordinate x, Coordinate y) {
 	this->suit = suit;
 	this->type = card;
@@ -56,15 +41,18 @@ bool Card::AnimateMotion(const Point& p1, const float& deltatime, SDL_Renderer* 
 	
 	Point difference = { buffP.x - this->x, buffP.y - this->y };
 
+	//if we are at least one coordinate closer to the end - we finish
 	if (difference.x == 0 || /*&& */difference.y == 0)
 		return true;
 
+	//calculating the distance between points
 	float distance = sqrt(difference.x * difference.x + difference.y * difference.y);
 	if (distance < 10)
 		return true;
 	float coefficientX = difference.x / distance;
 	float coefficientY = difference.y / distance;
 
+	//obtaining coordinates of point lying on line segment 
 	this->x += coefficientX * deltatime * cardMovingSpeed;
 	this->y += coefficientY * deltatime * cardMovingSpeed;
 

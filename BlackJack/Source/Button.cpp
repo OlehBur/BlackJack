@@ -53,13 +53,10 @@ void Button::SetCoord(Coordinate x, Coordinate y) {
 	positionR.y = y;
 
 	tittle.MoveToCoord(x + positionR.w / 2, y + positionR.h / 2);
-
-	//tittle.UpdateRect();
 };
 
 void Button::SetTittle(const string& tittle, SDL_Renderer * render) {
 	this->tittle.SetText(tittle, render);
-	//this->tittle.UpdateRect();
 };
 
 bool Button::Interact(const SDL_Rect& mousePos, const bool& isClick) {
@@ -80,12 +77,6 @@ bool Button::Interact(const SDL_Rect& mousePos, const bool& isClick) {
 	}
 	return false;
 };
-
-//void Button::UpdateRect() {
-//	textureR.y = (isClicked) ?
-//		(buttonTextureH / 3) * 2 : (isSelected)?
-//		0 : buttonTextureH / 3;
-//};
 
 void Button::Draw(SDL_Renderer* render) {
 

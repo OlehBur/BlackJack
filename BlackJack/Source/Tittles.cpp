@@ -18,8 +18,6 @@ void Tittle::/*~Tittle*/Destructor_Tittle() {
 	SDL_DestroyTexture(textT);
 	SDL_DestroyTexture(outlineT);
 	textT = nullptr;
-	//appFont = nullptr;
-	//outlineFont = nullptr;
 };
 
 void Tittle::UpdateRect() {

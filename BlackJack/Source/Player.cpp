@@ -46,7 +46,7 @@ void Player::PlayerCardsCentered() {
 					cardsY);//AnimateMotion(to coord)
 		}
 		playerTittle.MoveToCoord(cardsX, cardsY);
-		playerTittle.UpdateRect();
+		//playerTittle.UpdateRect();
 	}
 };
 
@@ -83,7 +83,7 @@ Player::Player(ScreenPlacement sp,
 	this->cash = defaultCash;
 	playerPlacement = sp;
 
-	betShips.reserve(2 * defaultCash / 200);
+	betShips.reserve(10/*2 * defaultCash / 200*/);
 
 	CardsUpatePlacement(true);
 	this->playerTittle.InitFont(render, -100, -100, 40);// = Tittle(to_string(playerCards.size()), render, NULL, NULL, 20);
@@ -105,41 +105,42 @@ void Player::Destructor_Player/*~Player*/() {
 bool Player::AddChip(const Chip& chip, const bool& isFree) {
 	int buffCash = (isFree) ? 0 : 200;//price per chip
 	if (cash >= buffCash) {
-		cash -= buffCash;
+		SubCash(buffCash);
 
 		betShips.emplace_back(chip);
 
 		if (betShips.size() > 5) {//for more columns
-			if(betShips.size() == 6)//perform operation only once
+			if (betShips.size() == 6)//perform operation only once
 				chipCenter.y += 10 * (betShips.size() - 1);//get value of the initial height
-			
+
 			switch (playerPlacement) {//different coordinate positions for different placements
 			case CARD_PLACE_DEFAULT:
-				betShips.back().MoveToCoord(chipCenter.x - betShips.back().GetWidth()/1.3, chipCenter.y - betShips.back().GetWidth()/1.5);
+				betShips.back().MoveToCoord(chipCenter.x - betShips.back().GetWidth() / 1.3, chipCenter.y - betShips.back().GetWidth() / 1.5);
 				break;
 
 			case CARD_PLACE_RIGHT:
-				betShips.back().MoveToCoord(chipCenter.x + betShips.back().GetWidth()/2, chipCenter.y + betShips.back().GetWidth() / 2);
+				betShips.back().MoveToCoord(chipCenter.x + betShips.back().GetWidth() / 2, chipCenter.y + betShips.back().GetWidth() / 2);
 				break;
 
 			case CARD_PLACE_LEFT:
-				betShips.back().MoveToCoord(chipCenter.x - betShips.back().GetWidth() / 2, chipCenter.y + betShips.back().GetWidth()/2);
+				betShips.back().MoveToCoord(chipCenter.x - betShips.back().GetWidth() / 2, chipCenter.y + betShips.back().GetWidth() / 2);
 				break;
 			}
-
-			}
+		}
 		else 
 			betShips.back().MoveToCoord(chipCenter.x, chipCenter.y);
+		/*betShips.back().UpdateRect();*/
 		chipCenter.y -= 10;//regardless of the column after each chip to raise the height
 		return true;
 	}
 	return false;
 };
 
-bool Player::SubChip() {
-	if (betShips.size() > 1) {
+bool Player::SubChip(const bool& isCash) {
+	if (betShips.size() > isCash) {//if you bust, chips reset to zero, if u click minus cash (isCash=true) - then the minimum number of chips is 1
 		betShips.pop_back();
-		cash += 200;
+		if(isCash)
+			AddCash(200);
 		chipCenter.y += 10;
 		return true;
 	}
@@ -148,7 +149,6 @@ bool Player::SubChip() {
 
 void Player::AddCard(const Card& card) {
 	playerCards.emplace_back(card);//push_back(card);
-	//PlayerCardsCentered();
 };
 
 
@@ -173,6 +173,10 @@ bool& Player::IsStand() {
 	return isStand;
 };
 
+bool& Player::IsBust() {
+	return isBust;
+};
+
 void Player::SetBet() {
 	isMadeBet = true;
 };
@@ -181,10 +185,14 @@ void Player::SetStand() {
 	isStand = true;
 };
 
+void Player::SetBust() {
+	isBust = true;
+};
+
 void Player::SetCardsCoord(const Point& coords) {
 	cardsCenter.x = coords.x;
 	cardsCenter.y = coords.y;
-	/*PlayerCardsCentered();*/
+
 	ChipsUpdatePlacement();		
 };
 
@@ -227,8 +235,13 @@ int& Player::GetCash() {
 	return cash;
 };
 
-vector<Chip>/*::iterator*/ Player::GetChips() {
-	return betShips/*.begin()*/;
+int Player::GetChipsCount() {
+	return betShips.size();
+};
+
+Chip/*vector<Chip>*//*::iterator*/ Player::GetChip() {
+
+	return betShips.back();/*.begin()*/;
 };
 
 void Player::DrawCards(SDL_Renderer* render) {
