@@ -4,11 +4,13 @@
 #include "Chip.h"
 #include "Tittles.h"
 
+
 class Player {
 	bool isUser{ false },
 		isDealer{ false },
 		isMadeBet{ false },
-		isStand{ false };
+		isStand{ false }, 
+		isBust{ false };;
 
 	deque<Card> playerCards;
 	Point cardsCenter{ 0, 0 }, 
@@ -37,7 +39,7 @@ public:
 
 
 	bool AddChip(const Chip& chip, const bool& isFree = false);
-	bool SubChip();
+	bool SubChip(const bool& isCash=true);
 	void AddCard(const Card& card);
 	void PlayerCardsCentered();
 
@@ -47,6 +49,7 @@ public:
 
 	void SetBet();
 	void SetStand();
+	void SetBust();
 	void SetCardsCoord(const Point& coords);
 	void SetGameResult(const string& str, 
 		SDL_Renderer* render, 
@@ -57,6 +60,7 @@ public:
 	bool& IsDealer();
 	bool& IsMadeBet();
 	bool& IsStand();
+	bool& IsBust();
 	Card& GetLastCard();
 	Point& GetCardCoord();
 	ScreenPlacement GetPlacement();
@@ -67,7 +71,8 @@ public:
 	int GetCardsValue();
 	int& GetAcesCount();
 	int& GetCash();
-	vector<Chip>/*::iterator*/ GetChips();
+	int GetChipsCount();
+	Chip/*vector<Chip>/*::iterator*/ GetChip();
 
 	void DrawCards(SDL_Renderer* render);
 	void DrawChips(SDL_Renderer* render);

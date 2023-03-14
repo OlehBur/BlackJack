@@ -23,14 +23,11 @@ extern SDL_DisplayMode display;
 class GameItems {
 
 protected:
-	//Point coord;
 	float x{ 0.0f }, y{ 0.0f };
-	/*SDL_Rect positionR{ 0 };*/
 
 public:
 	virtual void Draw() {};//=0;
-
-	/*virtual*/ void MoveToCoord(Coordinate x, Coordinate y);
+	virtual void MoveToCoord(Coordinate x, Coordinate y);
 	
 	static SDL_Texture* LoadTexture(const std::string& filePath, SDL_Renderer* renderTarg);
 	static void DrawText(SDL_Renderer* render,

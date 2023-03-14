@@ -86,12 +86,8 @@ class Card : public GameItems {
 	static int skin;
 
 	void UpdateRect();
-	void UpdateSkin();
 
 public:
-
-
-
 	Card(SuitType suit, CardType card,
 		SDL_Renderer* render, 
 		ScreenPlacement sp = CARD_PLACE_DEFAULT,

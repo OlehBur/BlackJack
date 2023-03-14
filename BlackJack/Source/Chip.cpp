@@ -20,10 +20,8 @@ bool Chip::InitTextures(SDL_Renderer* render) {
 		false;
 };
 
-Chip::Chip(const bool& isDealerChip/*, Coordinate x, Coordinate y*/, SDL_Renderer* render) {
+Chip::Chip(const bool& isDealerChip, SDL_Renderer* render) {
 	this->isDealerChip = isDealerChip;
-	//center.x = this->x = x;
-	//center.y = this->y = y;
 
 	InitTextures(render);
 };
