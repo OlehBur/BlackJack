@@ -314,12 +314,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\VOVA\Desktop\Програмування\Work\Libs\SDL2-devel-2.26.3-VC\SDL2-2.26.3\include;C:\Users\VOVA\Desktop\Програмування\Work\Libs\SDL2_image-devel-2.6.3-VC\SDL2_image-2.6.3\include;C:\Users\VOVA\Desktop\Програмування\Work\Libs\SDL2_ttf-devel-2.0.12-VC\SDL2_ttf-2.0.12\include;C:\Users\VOVA\Desktop\Програмування\Work\Libs\SDL2_mixer-devel-2.6.3-VC\SDL2_mixer-2.6.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\VOVA\Desktop\Програмування\Work\Libs\SDL2-devel-2.26.3-VC\SDL2-2.26.3\lib\x86;C:\Users\VOVA\Desktop\Програмування\Work\Libs\SDL2_image-devel-2.6.3-VC\SDL2_image-2.6.3\lib\x86;C:\Users\VOVA\Desktop\Програмування\Work\Libs\SDL2_ttf-devel-2.0.12-VC\SDL2_ttf-2.0.12\lib\x86;C:\Users\VOVA\Desktop\Програмування\Work\Libs\SDL2_mixer-devel-2.6.3-VC\SDL2_mixer-2.6.3\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

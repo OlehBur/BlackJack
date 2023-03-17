@@ -86,7 +86,3 @@ void Button::Draw(SDL_Renderer* render) {
 		&positionR);
 	tittle.Draw(render);
 };
-
-//bool Button::operator==(const ClickedButton& type) const {
-//	return this->type == type;
-//}

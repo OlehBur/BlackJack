@@ -61,7 +61,5 @@ public:
 	*/
 	bool Interact(const SDL_Rect& mousePos, const bool& isClick);;
 	void Draw(SDL_Renderer* render);
-
-	//bool operator==(const ClickedButton& type); //for use find()
 };
 

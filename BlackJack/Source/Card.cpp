@@ -47,7 +47,7 @@ bool Card::AnimateMotion(const Point& p1, const float& deltatime, SDL_Renderer* 
 
 	//calculating the distance between points
 	float distance = sqrt(difference.x * difference.x + difference.y * difference.y);
-	if (distance < 10)
+	if (distance < 10)//coordinate deviation for the end point
 		return true;
 	float coefficientX = difference.x / distance;
 	float coefficientY = difference.y / distance;
@@ -145,8 +145,6 @@ void Card::InitTexture(SDL_Renderer* render) {
 	SDL_QueryTexture(topTexture[0], NULL, NULL, &positionR.w, &positionR.h);
 	positionR.w *= scale;
 	positionR.h *= scale;
-
-	//UpdateRect();
 };
 
 int& Card::GetSuit() {
@@ -164,8 +162,10 @@ bool& Card::IsUpsideDown() {
 int Card::GetValue() {
 	if (type <= CARD_TYPE_TEN)
 		return type-100;
+
 	else if (type == CARD_TYPE_ACE)
-		return 0/*-1*/;
+		return 0;
+
 	else
 		return 10;
 };
@@ -186,8 +186,7 @@ bool Card::operator>(Card& card) {
 		false;
 };
 
-void /*Card&*/ Card::operator=(Card card) {
+void  Card::operator=(Card card) {
 	suit = card.GetSuit();
 	type = card.GetType();
-	//return card;
 };

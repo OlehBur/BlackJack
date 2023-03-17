@@ -16,13 +16,11 @@
 #define TITTLE_HELP2			32
 #define TITTLE_HELP3			33
 #define TITTLE_HELP4			34
-#define TITTLE_HELP_HIT			35
-#define TITTLE_HELP_STAND		36
-#define TITTLE_HELP_BET			37
-#define TITTLE_HELP_YOUR_DECK	38
+#define TITTLE_HELP5			35
+#define TITTLE_HELP6			36
+#define TITTLE_HELP7			37
 
-#define TITTLE_GAME_U_WIN		40
-#define TITTLE_GAME_U_LOSE		41
+#define TITTLE_GAME_END_ROUND	40
 
 
 

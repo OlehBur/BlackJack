@@ -46,7 +46,6 @@ void Player::PlayerCardsCentered() {
 					cardsY);//AnimateMotion(to coord)
 		}
 		playerTittle.MoveToCoord(cardsX, cardsY);
-		//playerTittle.UpdateRect();
 	}
 };
 
@@ -54,23 +53,95 @@ void Player::CardsUpatePlacement(bool allCards) {
 	if (allCards)
 		for (int c = 0; c < playerCards.size(); c++)
 			playerCards.at(c).SetPlacement(playerPlacement);
+
 	else playerCards.back().SetPlacement(playerPlacement);
 };
 
 void Player::ChipsUpdatePlacement() {
+
 	switch (playerPlacement) {
 	case CARD_PLACE_RIGHT:
-		chipCenter = { int(cardsCenter.x - display.h/2.5), cardsCenter.y - display.h / 10 };
+		chipCenter = { 
+			int(cardsCenter.x - display.h/2.5),
+			cardsCenter.y - display.h / 10 };
 		break;
+
 	case CARD_PLACE_LEFT:
-		chipCenter = { int(cardsCenter.x + display.h / 3.5), cardsCenter.y - display.h / 15 };
+		chipCenter = {
+			int(cardsCenter.x + display.h / 3.5), 
+			cardsCenter.y - display.h / 15 };
 		break;
+
 	default: 
-		chipCenter = { cardsCenter.x, int(cardsCenter.y - display.h / 2.9) };
+		chipCenter = {
+			cardsCenter.x, 
+			int(cardsCenter.y - display.h / 2.4) };
 	}
 
+	chipPosInColumn = chipCenter.y; //default height for chip in column
 }
 
+
+void Player::ChipsUpdatePos() {
+	if (betChips.size() > 5 && betChips.size() < 11) {//second Column
+
+		if (betChips.size() == 6)//perform operation only once
+			chipPosInColumn += 10 * (betChips.size() - 1);//get value of the initial height
+
+		switch (playerPlacement) {//different coordinate positions for different placements
+		case CARD_PLACE_DEFAULT:
+			betChips.back().MoveToCoord(
+				chipCenter.x - betChips.back().GetWidth() / 1.2,
+				chipPosInColumn - betChips.back().GetWidth() / 4);
+			break;
+
+		case CARD_PLACE_RIGHT:
+			betChips.back().MoveToCoord(
+				chipCenter.x + betChips.back().GetWidth() / 2, 
+				chipPosInColumn + betChips.back().GetWidth() / 2);
+			break;
+
+		case CARD_PLACE_LEFT:
+			betChips.back().MoveToCoord(
+				chipCenter.x - betChips.back().GetWidth() / 2, 
+				chipPosInColumn + betChips.back().GetWidth() / 2);
+			break;
+		}
+	}
+
+	else if (betChips.size() > 10) {//third column
+		if (betChips.size() == 11)
+			chipPosInColumn += 10 * (betChips.size() - 1);
+
+		switch (playerPlacement) {
+		case CARD_PLACE_DEFAULT:
+			betChips.back().MoveToCoord(
+				chipCenter.x - betChips.back().GetWidth() / 1.8,
+				chipPosInColumn + betChips.back().GetWidth() / 10);
+			break;
+
+		case CARD_PLACE_RIGHT:
+			betChips.back().MoveToCoord(
+				chipCenter.x - betChips.back().GetWidth() / 3,
+				chipPosInColumn + betChips.back().GetWidth() / 6);
+			break;
+
+		case CARD_PLACE_LEFT:
+			betChips.back().MoveToCoord(
+				chipCenter.x + betChips.back().GetWidth() / 4,
+				chipPosInColumn + betChips.back().GetWidth() / 3);
+			break;
+		}
+
+	}
+
+	else//default first column
+		betChips.back().MoveToCoord(
+			chipCenter.x, 
+			chipPosInColumn);
+
+	chipPosInColumn -= 10;//regardless of the column after each chip to raise the height
+};
 
 Player::Player(ScreenPlacement sp, 
 	SDL_Renderer* render,
@@ -83,11 +154,11 @@ Player::Player(ScreenPlacement sp,
 	this->cash = defaultCash;
 	playerPlacement = sp;
 
-	betShips.reserve(10/*2 * defaultCash / 200*/);
+	betChips.reserve(2 * defaultCash / 200);
 
 	CardsUpatePlacement(true);
-	this->playerTittle.InitFont(render, -100, -100, 40);// = Tittle(to_string(playerCards.size()), render, NULL, NULL, 20);
-	this->playerTittle.SetText(to_string(playerCards.size()), render);
+	this->playerTittle.InitFont(render, -100, -100, 40);
+	this->playerTittle.SetText("", render);
 };
 
 void Player::Destructor_Player/*~Player*/() {
@@ -95,9 +166,9 @@ void Player::Destructor_Player/*~Player*/() {
 		playerCards.at(card).Destructor_Card();
 	playerCards.clear();
 
-	for (int chip = 0; chip < betShips.size(); chip++)
-		betShips.at(chip).Destructor_Chip();
-	betShips.clear();
+	for (int chip = 0; chip < betChips.size(); chip++)
+		betChips.at(chip).Destructor_Chip();
+	betChips.clear();
 
 	playerTittle.Destructor_Tittle();
 };
@@ -107,53 +178,36 @@ bool Player::AddChip(const Chip& chip, const bool& isFree) {
 	if (cash >= buffCash) {
 		SubCash(buffCash);
 
-		betShips.emplace_back(chip);
+		betChips.emplace_back(chip);
 
-		if (betShips.size() > 5) {//for more columns
-			if (betShips.size() == 6)//perform operation only once
-				chipCenter.y += 10 * (betShips.size() - 1);//get value of the initial height
-
-			switch (playerPlacement) {//different coordinate positions for different placements
-			case CARD_PLACE_DEFAULT:
-				betShips.back().MoveToCoord(chipCenter.x - betShips.back().GetWidth() / 1.3, chipCenter.y - betShips.back().GetWidth() / 1.5);
-				break;
-
-			case CARD_PLACE_RIGHT:
-				betShips.back().MoveToCoord(chipCenter.x + betShips.back().GetWidth() / 2, chipCenter.y + betShips.back().GetWidth() / 2);
-				break;
-
-			case CARD_PLACE_LEFT:
-				betShips.back().MoveToCoord(chipCenter.x - betShips.back().GetWidth() / 2, chipCenter.y + betShips.back().GetWidth() / 2);
-				break;
-			}
-		}
-		else 
-			betShips.back().MoveToCoord(chipCenter.x, chipCenter.y);
-		/*betShips.back().UpdateRect();*/
-		chipCenter.y -= 10;//regardless of the column after each chip to raise the height
+		ChipsUpdatePos();
+		
 		return true;
 	}
 	return false;
 };
 
 bool Player::SubChip(const bool& isCash) {
-	if (betShips.size() > isCash) {//if you bust, chips reset to zero, if u click minus cash (isCash=true) - then the minimum number of chips is 1
-		betShips.pop_back();
+	if (betChips.size() > isCash) {//if you bust, chips reset to zero, if u click minus cash (isCash=true) - then the minimum number of chips is 1
+		betChips.pop_back();
 		if(isCash)
 			AddCash(200);
-		chipCenter.y += 10;
+
+		chipPosInColumn = (betChips.empty()) ?
+			chipCenter.y : 
+			betChips.back().GetCoordY() - 10;	//update position of the player's last chip 
 		return true;
 	}
 	return false;
 };
 
 void Player::AddCard(const Card& card) {
-	playerCards.emplace_back(card);//push_back(card);
+	playerCards.emplace_back(card);
 };
 
 
 Card& Player::GetLastCard() {
-	if (playerCards.size())
+	if (!playerCards.empty())
 		return playerCards.back();
 };
 
@@ -236,16 +290,16 @@ int& Player::GetCash() {
 };
 
 int Player::GetChipsCount() {
-	return betShips.size();
+	return betChips.size();
 };
 
-Chip/*vector<Chip>*//*::iterator*/ Player::GetChip() {
+Chip Player::GetChip() {
 
-	return betShips.back();/*.begin()*/;
+	return betChips.back();
 };
 
 void Player::DrawCards(SDL_Renderer* render) {
-	if (playerCards.size()) {
+	if (!playerCards.empty()) {
 		for (int i = 0; i < playerCards.size(); i++)
 			playerCards.at(i).Draw(render);
 
@@ -254,13 +308,17 @@ void Player::DrawCards(SDL_Renderer* render) {
 };
 
 void Player::DrawChips(SDL_Renderer* render) {
-	if (betShips.size())
-		for (int i = 0; i < betShips.size(); i++)
-				betShips.at(i).Draw(render);
+	if (!betChips.empty())
+		for (int i = 0; i < betChips.size(); i++)
+				betChips.at(i).Draw(render);
 };
 
 void Player::DrawTittle(SDL_Renderer* render) {
 	if (!isDealer && !isStand)//if not dealer and dont stand
 		playerTittle.SetText(to_string(GetCardsValue() + GetAcesCount()), render, { 0,255,255,255 });//draw card value
+	
+	else if(isDealer && isStand)//dealer shows his score only when he stops 
+		playerTittle.SetText(to_string(GetCardsValue() + GetAcesCount()), render, { 0,255,255,255 });
+
 	playerTittle.Draw(render);
 }

@@ -58,18 +58,3 @@ void Chip::Draw(SDL_Renderer* render) {
 int& Chip::GetWidth() {
 	return positionR.w;
 };
-
-
-//bool Chip::operator<(Chip& ñhip) {
-//	return (isDealerChip < ñhip.isDealerChip) ?
-//		true : false;
-//};
-//
-//bool Chip::operator>(Chip& ñhip) {
-//	return (isDealerChip > ñhip.isDealerChip) ?
-//		true : false;
-//};
-//
-//void Chip::operator=(Chip ñhip) {
-//	ñhip.isDealerChip = isDealerChip;
-//};

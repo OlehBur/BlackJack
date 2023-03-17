@@ -95,12 +95,12 @@ public:
 	void /*~Card*/Destructor_Card();
 
 	void InitTexture(SDL_Renderer* render);
+
 	/*
 	return true if card coordinates have reached end point 
 	*/
 	bool AnimateMotion(const Point& p1, const float& deltatime, SDL_Renderer* render, bool isNormalPlacement);
 	void Draw(SDL_Renderer* render);
-	//static void DrawDeck(SDL_Renderer* render, int x, int y);
 
 	void SetScaleTexture(const float& scale);
 	void SetScaleTextureByScreen(const int& screenWidth);
@@ -109,9 +109,10 @@ public:
 	void SetUpsideDown(const bool& isUpsideDown);
 	static void ChangeCardSkin(/*const int& name = CARD_SKIN_DEFAULT*/);
 
-	/*SuitType*/int& GetSuit();
-	/*CardType*/int& GetType();
+	int& GetSuit();
+	int& GetType();
 	bool& IsUpsideDown();
+
 	/*
 	return value of cards, 
 	(number cards return corresponding values, face cards return 10, and ace returns -1)
@@ -122,5 +123,5 @@ public:
 
 	bool operator<(Card& card);
 	bool operator>(Card& card);
-	void/*Card&*/ operator=(Card card);
+	void operator=(Card card);
 };

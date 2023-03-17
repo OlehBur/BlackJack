@@ -16,16 +16,21 @@ class Player {
 	Point cardsCenter{ 0, 0 }, 
 		chipCenter{ 0, 0 };
 	int cntAces{ 0 };
-	int playerPlacement{ 0 };
+	int playerPlacement{ 0 },
+		chipPosInColumn{ 0 };
 	Tittle playerTittle;
 
 	int cash{ 0 };
-	vector<Chip> betShips;
+	vector<Chip> betChips;
 
 	void AddCash(const int& cash);
 	void SubCash(const int& cash);
 
 	void ChipsUpdatePlacement();
+
+	/*updates position of the player's last chip when it is received*/
+	void ChipsUpdatePos();
+
 	void DrawTittle(SDL_Renderer* render);
 
 public:
@@ -45,8 +50,6 @@ public:
 
 	void CardsUpatePlacement(bool allCards = false);
 
-	//bool& IsMadeBet()
-
 	void SetBet();
 	void SetStand();
 	void SetBust();
@@ -64,15 +67,16 @@ public:
 	Card& GetLastCard();
 	Point& GetCardCoord();
 	ScreenPlacement GetPlacement();
-	/*
-	return -1, when player doesnt have a cards
-	*/
+
+	/* return -1, when player doesnt have a cards */
 	int GetCardsCount();
+
+	/* return a player cards value and calc aces cnt*/
 	int GetCardsValue();
 	int& GetAcesCount();
 	int& GetCash();
 	int GetChipsCount();
-	Chip/*vector<Chip>/*::iterator*/ GetChip();
+	Chip GetChip();
 
 	void DrawCards(SDL_Renderer* render);
 	void DrawChips(SDL_Renderer* render);

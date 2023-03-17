@@ -1,2 +1,10 @@
-v1.0.3.0 pre-alpha:
- The main functionality of the game has been added and implemented.
+v 1.0.6.0 pre-release:
+- added the display of player points after a loss;
+- new title to end the round;
+- change help menu description;
+- add release version of app;
+- change event handler;
+- add third column for chips;
+-fixed the correction of the positions of the chips at the ends of the deck when repeatedly pressed +-;
+- fix game crush error;
+- other code improvements and fixes.

@@ -19,7 +19,7 @@ class Ptr {
 
 public:
 	Ptr(T* ptr) {pointer = ptr; }
-	//~Ptr() {delete pointer;}
+	~Ptr() {delete pointer;}
 
 	T& operator*() {return *pointer;}
 };
@@ -34,12 +34,11 @@ class Game {
 		*buttonClick_Song{ nullptr },
 		*chip_Song{ nullptr };
 	SDL_Event event{ 0 };
-	//SDL_DisplayMode display;
 
-	stack<Card> cardPlayDeck/*[52]*/;
+	stack<Card> cardPlayDeck;
 	vector <Button> buttons;
 	vector <Player> players;
-	//Ptr<map <int, Tittle>> tittles=new map <int, Tittle>;
+
 	map <int, Tittle > tittles;
 
 	int DECK_POS_X{ 0 }, DECK_POS_Y{ 0 };
@@ -47,7 +46,8 @@ class Game {
 		isMusicOn{ true },
 		distributionCards{ false },
 		startBets{ false },
-		isHelpOn{ false };
+		isHelpOn{ false }, 
+		isEndGame{ false };
 	bool topCardIsMove{ false };
 
 	//timer
@@ -58,7 +58,8 @@ class Game {
 	int prevTime{ 0 }, currentTime{ 0 };
 
 	short int currentPlayer = { 0 },
-		cashButtonIndx{ 0 };
+		cashButtonIndx{ 0 },
+		textMaxSize{ 0 };
 	
 	void DeckGeneration();
 
@@ -68,21 +69,24 @@ class Game {
 	void SkipTake();
 	void SkipPlayer();
 	void EndGame();
+	void MadeBets();
 	void NPCGamePlay(Player& player);
 	void NPCMadeBet(Player& player);
-	void DrawHelpTittles();
-	void WinChips(Player& player, const int& cntChips);
+	void WinChips(Player& player, const int& cntChips, const bool& isDoublePrice);
 	void PlayerBust(Player& player);
+
+	void DrawDeckCard();
+	void DrawHelpTittles();
+	void DrawUserBetTittles();
+	void DrawUserTurnTittles();
 
 	/*catches animation card requests and processes them*/
 	void CardAnimIntercep();
 
+	void MusicInit();
 	void InitPlayers();
-	//windows
 	void InitTittles();
 	void InitButtons();
-	void InitWindows();
-	void OpendWindow();
 
 public:
 	static void Error(const char str[]);

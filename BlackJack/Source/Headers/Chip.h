@@ -24,7 +24,4 @@ public:
 	void Draw(SDL_Renderer* render);
 
 	int& GetWidth();
-	//bool operator<(Chip& ñhip);
-	//bool operator>(Chip& ñhip);
-	//void operator=(Chip ñhip);
 };
