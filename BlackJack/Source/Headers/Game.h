@@ -2,37 +2,32 @@
 
 #include <SDL.h>
 #include <SDL_mixer.h>
+
 #include <cstdlib>
 #include <ctime>
+
 #include <stack>
 #include <map>
 #include <algorithm>
+
+#include "SmartPtr.h"
 #include "Card.h"
 #include "Chip.h"
 #include "Button.h"
 #include "Player.h"
 
 
-template <typename T> 
-class Ptr {
-	T* pointer;
-
-public:
-	Ptr(T* ptr) {pointer = ptr; }
-	~Ptr() {delete pointer;}
-
-	T& operator*() {return *pointer;}
-};
-
 
 class Game {
-	SDL_Window* window{ nullptr };
-	SDL_Renderer* render{ nullptr };
-	SDL_Texture* background{ nullptr };
-	Mix_Music* musicBackground{ nullptr };
-	Mix_Chunk* cardFlip_Song{ nullptr },
-		*buttonClick_Song{ nullptr },
-		*chip_Song{ nullptr };
+	//pointers
+	unique_ptr <SDL_Window, SDL_WndDeleter> window;
+	unique_ptr <SDL_Renderer, SDL_RndrDeleter> render;
+	unique_ptr <SDL_Texture, SDL_TxtrDeleter> background;
+	unique_ptr <Mix_Music, SDL_MusDeleter> musicBackground;
+	unique_ptr <Mix_Chunk, SDL_ChunkDeleter> cardFlip_Song,
+		buttonClick_Song,
+		chip_Song;
+
 	SDL_Event event{ 0 };
 
 	stack<Card> cardPlayDeck;
@@ -46,18 +41,20 @@ class Game {
 		isMusicOn{ true },
 		distributionCards{ false },
 		startBets{ false },
-		isHelpOn{ false }, 
+		isHelpOn{ false },
+		isEndRound{ false }, 
 		isEndGame{ false };
 	bool topCardIsMove{ false };
 
 	//timer
 	float frameTime{ 0.0f },
-		deltaTime{ 0.0f }, 
+		deltaTime{ 0.0f },
 		playersTurnTime{ 0.0f },
-		playersBetTime{ 0.0f };
+		playersBetTime{ 0.0f },
+		endRoundTime{ 0.0f };
 	int prevTime{ 0 }, currentTime{ 0 };
 
-	short int currentPlayer = { 0 },
+	short int currentPlayerIndex = { 0 },
 		cashButtonIndx{ 0 },
 		textMaxSize{ 0 };
 	
@@ -68,7 +65,8 @@ class Game {
 	void TakeCard(Player& player, bool isDealer = false);
 	void SkipTake();
 	void SkipPlayer();
-	void EndGame();
+	void NextRound();
+	void EndRound();
 	void MadeBets();
 	void NPCGamePlay(Player& player);
 	void NPCMadeBet(Player& player);

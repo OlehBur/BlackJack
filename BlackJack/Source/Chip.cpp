@@ -1,8 +1,8 @@
 #include "Headers/Chip.h"
 
 bool Chip::InitTextures(SDL_Renderer* render) {
-	chipTextrue = GameItems::LoadTexture("Resource\\Images\\Chips\\chips.png", render);
-	SDL_QueryTexture(chipTextrue, NULL, NULL, &textureR.w, &textureR.h);
+	chipTextrue.reset(GameItems::LoadTexture("Resource\\Images\\Chips\\chips.png", render));
+	SDL_QueryTexture(chipTextrue.get(), NULL, NULL, &textureR.w, &textureR.h);
 
 	textureR.w /= 2;
 
@@ -26,10 +26,10 @@ Chip::Chip(const bool& isDealerChip, SDL_Renderer* render) {
 	InitTextures(render);
 };
 
-void Chip::Destructor_Chip() {
-	SDL_DestroyTexture(chipTextrue);
-	chipTextrue = nullptr;
-};
+//void Chip::Destructor_Chip() {
+//	SDL_DestroyTexture(chipTextrue);
+//	chipTextrue = nullptr;
+//};
 
 bool& Chip::IsDealerChip() {
 	return isDealerChip;
@@ -49,7 +49,7 @@ void Chip::MoveToCoord(Coordinate x, Coordinate y) {
 
 void Chip::Draw(SDL_Renderer* render) {
 	SDL_RenderCopy(render,
-		chipTextrue,
+		chipTextrue.get(),
 		&textureR,
 		&positionR);
 }

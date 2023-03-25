@@ -25,6 +25,7 @@
     <ClInclude Include="Source\Headers\Game.h" />
     <ClInclude Include="Source\Headers\GameItems.h" />
     <ClInclude Include="Source\Headers\Player.h" />
+    <ClInclude Include="Source\Headers\SmartPtr.h" />
     <ClInclude Include="Source\Headers\Tittles.h" />
   </ItemGroup>
   <ItemGroup>

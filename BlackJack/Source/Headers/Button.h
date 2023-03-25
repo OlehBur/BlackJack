@@ -20,7 +20,7 @@ enum class ClickedButton { HIT, STAND, CASH_PLUS, CASH_MINUS, CASH, HELP, CHANGE
 
 class Button {
 	ClickedButton type;
-	SDL_Texture* texture{ nullptr };
+	unique_ptr <SDL_Texture, SDL_TxtrDeleter> texture;
 	SDL_Rect textureR{ NULL }, positionR{ NULL };
 	bool isSelected{ false }, 
 		isClicked{ false };
@@ -47,7 +47,7 @@ public:
 	*/
 	Button(SDL_Renderer* render, const ClickedButton& type/*, const string& tittle*/, const int& sizeText/*=60*/);
 	//~Button();
-	void Destructor_Button();
+	//void Destructor_Button();
 
 	/*static ClickedButton& GetClickedButton();*/
 	SDL_Rect& GetRect();

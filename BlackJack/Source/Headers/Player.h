@@ -6,6 +6,7 @@
 
 
 class Player {
+
 	bool isUser{ false },
 		isDealer{ false },
 		isMadeBet{ false },
@@ -42,17 +43,18 @@ public:
 		const bool& isDealer = false);
 	void Destructor_Player/*~Player*/();
 
-
 	bool AddChip(const Chip& chip, const bool& isFree = false);
 	bool SubChip(const bool& isCash=true);
 	void AddCard(const Card& card);
+	void ConvertChipToCash();
 	void PlayerCardsCentered();
+	void DiscardCards();
 
 	void CardsUpatePlacement(bool allCards = false);
 
-	void SetBet();
-	void SetStand();
-	void SetBust();
+	void SetBet(const bool& isMadeBet);
+	void SetStand(const bool& isStand);
+	void SetBust(const bool& isBust);
 	void SetCardsCoord(const Point& coords);
 	void SetGameResult(const string& str, 
 		SDL_Renderer* render, 
@@ -76,8 +78,9 @@ public:
 	int& GetAcesCount();
 	int& GetCash();
 	int GetChipsCount();
-	Chip GetChip();
+	//Chip GetChip();
 
 	void DrawCards(SDL_Renderer* render);
 	void DrawChips(SDL_Renderer* render);
+
 };

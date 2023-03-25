@@ -21,16 +21,17 @@
 #define TITTLE_HELP7			37
 
 #define TITTLE_GAME_END_ROUND	40
+#define TITTLE_GAME_END			41
 
 
 
 class Tittle : public GameItems {
-	SDL_Surface* textS{ nullptr },
-		* outlineS{ nullptr };
-	SDL_Texture* textT{ nullptr },
-		* outlineT{ nullptr };
-	TTF_Font* appFont{ nullptr },
-		* outlineFont{ nullptr };
+	unique_ptr <SDL_Surface, SDL_SrfcDeleter> textS,
+		outlineS;
+	unique_ptr <SDL_Texture, SDL_TxtrDeleter> textT,
+		outlineT;
+	unique_ptr <TTF_Font, SDL_FontDeleter> appFont,
+		outlineFont;
 	SDL_Rect textR{ NULL };
 	string text = "";
 
@@ -41,8 +42,9 @@ public:
 		Coordinate x, Coordinate y,
 		const int& sizeText,
 		const string fontPath = "Resource\\TTF\\CONEI___.ttf");
-	//~Tittle();
-	void Destructor_Tittle();
+	/*~Tittle();*/
+
+	//void Destructor_Tittle();
 
 	void UpdateRect();
 	void InitFont(SDL_Renderer* render,

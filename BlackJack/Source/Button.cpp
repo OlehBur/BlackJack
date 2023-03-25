@@ -4,7 +4,7 @@
 ClickedButton Button::currentButtonClicked = ClickedButton::NOTHING;
 
 void Button::InitTexture() {
-	SDL_QueryTexture(texture,
+	SDL_QueryTexture(texture.get(),
 		NULL, NULL,
 		&textureR.w, &textureR.h);
 
@@ -26,18 +26,18 @@ Button::Button(SDL_Renderer* render, const ClickedButton& type,/* const string& 
 	this->type = type;
 
 	if (type == BUTTON_TYPE_HIT || type == BUTTON_TYPE_STAND || type == BUTTON_TYPE_CASH || type == BUTTON_TYPE_CHANGE_SKIN)
-		texture = GameItems::LoadTexture("Resource\\Images\\GUI\\buttons.png", render);
+		texture.reset(GameItems::LoadTexture("Resource\\Images\\GUI\\buttons.png", render));
 	else //CASH_PLUS, CASH_MINUS, DEFAULT_MINI
-		texture = GameItems::LoadTexture("Resource\\Images\\GUI\\buttons1.png", render);
+		texture.reset(GameItems::LoadTexture("Resource\\Images\\GUI\\buttons1.png", render));
 
 	InitTexture();
 };
 
-void Button::Destructor_Button/*~Button*/() {
-	SDL_DestroyTexture(texture);
-	texture = nullptr;
-	tittle.Destructor_Tittle();// ~Tittle();
-};
+//void Button::Destructor_Button/*~Button*/() {
+//	//SDL_DestroyTexture(texture.get());
+//	//texture = nullptr;
+//	//tittle.Destructor_Tittle();/*~Tittle()*/;
+//};
 
 SDL_Rect& Button::GetRect() {
 	return positionR;
@@ -63,6 +63,7 @@ bool Button::Interact(const SDL_Rect& mousePos, const bool& isClick) {
 	if (SDL_HasIntersection(&positionR, &mousePos)) {
 		isSelected = true;
 		textureR.y = 0;
+
 		if (isClick) {
 			isClicked = true;
 			textureR.y = (buttonTextureH / 3) * 2;
@@ -81,7 +82,7 @@ bool Button::Interact(const SDL_Rect& mousePos, const bool& isClick) {
 void Button::Draw(SDL_Renderer* render) {
 
 	SDL_RenderCopy(render, 
-		texture, 
+		texture.get(), 
 		&textureR, 
 		&positionR);
 	tittle.Draw(render);

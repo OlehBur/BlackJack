@@ -25,14 +25,14 @@ Card::Card(SuitType suit, CardType card, SDL_Renderer* render, ScreenPlacement s
 	UpdateRect();
 };
 
-void Card::Destructor_Card/*~Card*/() {
-	for (int i = 0; i < 3; i++) {
-		SDL_DestroyTexture(topTexture[i]);
-		SDL_DestroyTexture(suitTexture[i]);
-		topTexture[i] = nullptr;
-		suitTexture[i] = nullptr;
-	}
-};
+//void Card::Destructor_Card/*~Card*/() {
+//	//for (int i = 0; i < 3; i++) {
+//	//	SDL_DestroyTexture(topTexture[i]);
+//	//	SDL_DestroyTexture(suitTexture[i]);
+//	//	topTexture[i] = nullptr;
+//	//	suitTexture[i] = nullptr;
+//	//}
+//};
 
 bool Card::AnimateMotion(const Point& p1, const float& deltatime, SDL_Renderer* render, bool isNormalPlacement) {
 	Point buffP = p1;
@@ -63,7 +63,9 @@ bool Card::AnimateMotion(const Point& p1, const float& deltatime, SDL_Renderer* 
 void Card::Draw(SDL_Renderer* render) {
 	UpdateRect();
 	SDL_RenderCopyEx(render,
-		(isUpsideDown) ? suitTexture[skin - 80] : topTexture[skin - 80],
+		(isUpsideDown) ? 
+			suitTexture[skin - 80].get() :
+			topTexture[skin - 80].get(),
 		NULL,
 		&positionR,
 		angleRotaton,
@@ -74,7 +76,7 @@ void Card::Draw(SDL_Renderer* render) {
 void Card::SetScaleTexture(const float& scale) {
 	this->scale = scale;
 
-	SDL_QueryTexture(topTexture[skin-80], NULL, NULL, &positionR.w, &positionR.h);
+	SDL_QueryTexture(topTexture[skin-80].get(), NULL, NULL, &positionR.w, &positionR.h);
 
 	positionR.w *= scale;
 	positionR.h *= scale;
@@ -87,7 +89,7 @@ void Card::SetScaleTextureByScreen(const int& screenWidth) {
 		positionR.h *= scale;
 };
 
-void Card::SetCardPos(Coordinate x, Coordinate y) {
+void Card::MoveToCoord(Coordinate x, Coordinate y) {
 	this->x = x;
 	this->y = y;
 	
@@ -137,12 +139,12 @@ void Card::InitTexture(SDL_Renderer* render) {
 
 	for (int i = 0; i < 3; i++) {//ini all skins
 		buffPatchT[i]= "Resource\\Images\\Cards skins\\" + skinFolder[i] + "\\" + name;
-		topTexture[i] = GameItems::LoadTexture(buffPatchT[i], render);
+		topTexture[i].reset( GameItems::LoadTexture(buffPatchT[i], render));
 		buffPatchS[i] = "Resource\\Images\\Cards skins\\" + skinFolder[i] + "\\" + "suit.png";
-		suitTexture[i]= GameItems::LoadTexture(buffPatchS[i], render);
+		suitTexture[i].reset(GameItems::LoadTexture(buffPatchS[i], render));
 	}
 	
-	SDL_QueryTexture(topTexture[0], NULL, NULL, &positionR.w, &positionR.h);
+	SDL_QueryTexture(topTexture[0].get(), NULL, NULL, &positionR.w, &positionR.h);
 	positionR.w *= scale;
 	positionR.h *= scale;
 };
@@ -189,4 +191,10 @@ bool Card::operator>(Card& card) {
 void  Card::operator=(Card card) {
 	suit = card.GetSuit();
 	type = card.GetType();
+
+	card.SetPlacement(CARD_PLACE_DEFAULT);
+	card.MoveToCoord(x, y);
+	card.skin = skin;
+
+	ChangeCardSkin();
 };

@@ -20,7 +20,7 @@ void Player::PlayerCardsCentered() {
 			cardsY = cardsCenter.y - (playerCards.size()-1) * (playerCards.front().GetRectOnScreen().w / 4);
 
 			for (int i = 0; i < playerCards.size(); i++)
-				playerCards.at(i).SetCardPos(
+				playerCards.at(i).MoveToCoord(
 					cardsX,
 					cardsY + i * playerCards.front().GetRectOnScreen().w / 2);
 			break;
@@ -30,7 +30,7 @@ void Player::PlayerCardsCentered() {
 			cardsY = cardsCenter.y - (playerCards.size()-1) * (playerCards.front().GetRectOnScreen().w / 4);
 
 			for (int i = 0; i < playerCards.size(); i++)
-				playerCards.at(i).SetCardPos(
+				playerCards.at(i).MoveToCoord(
 					cardsX,
 					cardsY + i * playerCards.front().GetRectOnScreen().w / 2);
 			break;
@@ -41,12 +41,16 @@ void Player::PlayerCardsCentered() {
 
 			//change cards pos
 			for (int i = 0; i < playerCards.size(); i++)
-				playerCards.at(i).SetCardPos(
+				playerCards.at(i).MoveToCoord(
 					cardsX + i * playerCards.front().GetRectOnScreen().w / 2,
 					cardsY);//AnimateMotion(to coord)
 		}
 		playerTittle.MoveToCoord(cardsX, cardsY);
 	}
+};
+
+void Player::DiscardCards() {
+	playerCards.clear();
 };
 
 void Player::CardsUpatePlacement(bool allCards) {
@@ -162,15 +166,15 @@ Player::Player(ScreenPlacement sp,
 };
 
 void Player::Destructor_Player/*~Player*/() {
-	for (int card = 0; card < playerCards.size(); card++)
-		playerCards.at(card).Destructor_Card();
+	//for (int card = 0; card < playerCards.size(); card++)
+	//	playerCards.at(card).Destructor_Card();
 	playerCards.clear();
 
-	for (int chip = 0; chip < betChips.size(); chip++)
-		betChips.at(chip).Destructor_Chip();
+	//for (int chip = 0; chip < betChips.size(); chip++)
+	//	betChips.at(chip).Destructor_Chip();
 	betChips.clear();
 
-	playerTittle.Destructor_Tittle();
+	//playerTittle.~Tittle/*Destructor_Tittle*/();
 };
 
 bool Player::AddChip(const Chip& chip, const bool& isFree) {
@@ -205,6 +209,17 @@ void Player::AddCard(const Card& card) {
 	playerCards.emplace_back(card);
 };
 
+void Player::ConvertChipToCash() {
+	while (!betChips.empty()) {
+		betChips.pop_back();
+		AddCash(200);
+
+		chipPosInColumn = (betChips.empty()) ?
+			chipCenter.y :
+			betChips.back().GetCoordY() - 10;	//update position of the player's last chip 
+	}
+};
+
 
 Card& Player::GetLastCard() {
 	if (!playerCards.empty())
@@ -231,16 +246,16 @@ bool& Player::IsBust() {
 	return isBust;
 };
 
-void Player::SetBet() {
-	isMadeBet = true;
+void Player::SetBet(const bool& isMadeBet) {
+	this->isMadeBet = isMadeBet;
 };
 
-void Player::SetStand() {
-	isStand = true;
+void Player::SetStand(const bool& isStand) {
+	this->isStand = isStand;
 };
 
-void Player::SetBust() {
-	isBust = true;
+void Player::SetBust(const bool& isBust) {
+	this->isBust = isBust;
 };
 
 void Player::SetCardsCoord(const Point& coords) {
@@ -293,10 +308,10 @@ int Player::GetChipsCount() {
 	return betChips.size();
 };
 
-Chip Player::GetChip() {
-
-	return betChips.back();
-};
+//Chip Player::GetChip() {
+//
+//	return betChips.back();
+//};
 
 void Player::DrawCards(SDL_Renderer* render) {
 	if (!playerCards.empty()) {
@@ -322,3 +337,4 @@ void Player::DrawTittle(SDL_Renderer* render) {
 
 	playerTittle.Draw(render);
 }
+

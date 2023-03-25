@@ -77,8 +77,8 @@ class Card : public GameItems {
 	int suit{ 0 }, type{ 0 };
 	
 	float scale{ 0.5f };
-	SDL_Texture* topTexture[3]{ nullptr },
-		* suitTexture[3]{ nullptr };
+	unique_ptr <SDL_Texture, SDL_TxtrDeleter> topTexture[3],
+		suitTexture[3];
 	bool isUpsideDown = true;
 	SDL_Rect positionR{ NULL };
 	float angleRotaton = 0.0f;
@@ -92,7 +92,7 @@ public:
 		SDL_Renderer* render, 
 		ScreenPlacement sp = CARD_PLACE_DEFAULT,
 		Coordinate x = 0, Coordinate y = 0);
-	void /*~Card*/Destructor_Card();
+	//void /*~Card*/Destructor_Card();
 
 	void InitTexture(SDL_Renderer* render);
 
@@ -104,7 +104,7 @@ public:
 
 	void SetScaleTexture(const float& scale);
 	void SetScaleTextureByScreen(const int& screenWidth);
-	void SetCardPos(Coordinate x, Coordinate y);
+	void MoveToCoord(Coordinate x, Coordinate y);
 	void SetPlacement(ScreenPlacement sp);
 	void SetUpsideDown(const bool& isUpsideDown);
 	static void ChangeCardSkin(/*const int& name = CARD_SKIN_DEFAULT*/);

@@ -6,24 +6,26 @@ void GameItems::DrawText(SDL_Renderer* render,
 	Coordinate x, Coordinate y, const string& str, 
 	const int& sizeText, const string fontPath){
 
-	SDL_Surface* textS{ nullptr },
-		* outlineS{ nullptr };
-	SDL_Texture* textT{ nullptr };
-	TTF_Font* appFont{ nullptr },
-		* outlineFont{ nullptr };
+	unique_ptr <SDL_Surface, SDL_SrfcDeleter> textS,
+		outlineS;
+	unique_ptr <SDL_Texture, SDL_TxtrDeleter> textT;
+	unique_ptr <TTF_Font, SDL_FontDeleter> appFont,
+		outlineFont;
+
 	SDL_Rect textR{ NULL };
 	
 	int outlineSize = ((sizeText / 40)<1)?
 		1 : sizeText / 40;
 	
 	//create fonts
-	appFont = TTF_OpenFont(fontPath.c_str(), sizeText);
-	outlineFont = TTF_OpenFont(fontPath.c_str(), sizeText);
-	TTF_SetFontOutline(outlineFont, outlineSize);
+	appFont.reset(TTF_OpenFont(fontPath.c_str(), sizeText));
+	outlineFont.reset(TTF_OpenFont(fontPath.c_str(), sizeText));
+
+	TTF_SetFontOutline(outlineFont.get(), outlineSize);
 
 	//create text render
-	outlineS = TTF_RenderText_Blended(outlineFont, str.c_str(), { 102,0,0, 255 });
-	textS = TTF_RenderText_Solid(appFont, str.c_str(), { 204,102,0,255 });
+	outlineS.reset(TTF_RenderText_Blended(outlineFont.get(), str.c_str(), { 102,0,0, 255 }));
+	textS.reset(TTF_RenderText_Solid(appFont.get(), str.c_str(), { 204,102,0,255 }));
 	//get new parametres for rect 
 	textR = { 
 		x- textS->w/2,
@@ -33,41 +35,44 @@ void GameItems::DrawText(SDL_Renderer* render,
 	};
 	
 	//font draw
-	textT = SDL_CreateTextureFromSurface(render, textS);
-	SDL_FreeSurface(textS);
-	SDL_RenderCopy(render, textT, NULL, &textR);
+	textT.reset(SDL_CreateTextureFromSurface(render, textS.get()));
+	/*SDL_FreeSurface(textS);*/
+	SDL_RenderCopy(render, textT.get(), NULL, &textR);
 
 	//outline font draw
-	textT = SDL_CreateTextureFromSurface(render, outlineS);
-	SDL_FreeSurface(outlineS);
+	textT.reset(SDL_CreateTextureFromSurface(render, outlineS.get()));
+	//SDL_FreeSurface(outlineS);
 	textR.y-=3;//fix outline calculating error
-	SDL_RenderCopy(render, textT, NULL, &textR);
+	SDL_RenderCopy(render, textT.get(), NULL, &textR);
 
 	//SDL_SetSurfaceBlendMode(textS, SDL_BLENDMODE_BLEND);
 	//SDL_BlitSurface(textS, NULL, outlineS, NULL/*&textR*/);
 
-	textS = nullptr;
-	outlineS = nullptr;
-	
-	SDL_DestroyTexture(textT);
-	textT = nullptr;
-	appFont = nullptr;
-	outlineFont = nullptr;
+	//textS = nullptr;
+	//outlineS = nullptr;
+	//
+	//SDL_DestroyTexture(textT);
+	//textT = nullptr;
+	//appFont = nullptr;
+	//outlineFont = nullptr;
 }
 
 SDL_Texture* GameItems::LoadTexture(const string& filePath, SDL_Renderer* renderTarg) {
-	SDL_Texture* texture = nullptr;
-	SDL_Surface* surface = IMG_Load(filePath.c_str());
-
-	if (surface == NULL)
+	static SDL_Texture *texture{ nullptr };
+	unique_ptr <SDL_Surface, SDL_SrfcDeleter> surface;
+	
+	surface.reset(IMG_Load(filePath.c_str()));
+		
+	if (surface.get() == NULL)
 		SDL_Log(IMG_GetError());
+
 	else {
-		texture = SDL_CreateTextureFromSurface(renderTarg, surface);
+		texture = SDL_CreateTextureFromSurface(renderTarg, surface.get());
+
 		if (texture == NULL)
 			SDL_Log(SDL_GetError());
 	}
 
-	SDL_FreeSurface(surface);
 	return texture;
 };
 

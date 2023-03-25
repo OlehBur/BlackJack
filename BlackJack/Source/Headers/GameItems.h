@@ -8,6 +8,9 @@
 #include <deque>
 #include <vector>
 
+#include "SmartPtr.h"
+
+
 using namespace std;
 
 typedef const int& Coordinate;
@@ -15,6 +18,7 @@ typedef const int& Coordinate;
 struct Point {
 	int x{ 0 }, y{ 0 };
 };
+
 
 extern SDL_DisplayMode display;
 
