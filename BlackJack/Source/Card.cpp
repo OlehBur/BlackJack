@@ -9,9 +9,28 @@ void Card::ChangeCardSkin() {
 };
 
 void Card::UpdateRect() {
-	positionR.x = x - positionR.w / 2;
+	positionR.x = x - positionR.w / 2;//centered card texture
 	positionR.y = y - positionR.h / 2;
 };
+
+
+//Card::Card(const Card& card) {
+//	suit = card.suit;
+//	type = card.type;
+//	skin = card.skin;
+//
+//	for (int i = 0; i < 3; i++) {
+//		topTexture[i]=card.topTexture[i];
+//		suitTexture[i] = card.suitTexture[i];
+//		/*topTexture[i].reset(card.topTexture[i].get());
+//		suitTexture[i].reset(card.suitTexture[i].get())*/;
+//	}
+//
+//	ChangeCardSkin();
+//
+//	SetPlacement(CARD_PLACE_DEFAULT);
+//	MoveToCoord(card.x, card.y);
+//};
 
 Card::Card(SuitType suit, CardType card, SDL_Renderer* render, ScreenPlacement sp, Coordinate x, Coordinate y) {
 	this->suit = suit;
@@ -37,17 +56,17 @@ Card::Card(SuitType suit, CardType card, SDL_Renderer* render, ScreenPlacement s
 bool Card::AnimateMotion(const Point& p1, const float& deltatime, SDL_Renderer* render, bool isNormalPlacement) {
 	Point buffP = p1;
 	if(isNormalPlacement)
-		buffP.y -= positionR.h / 2;
+		buffP.y -= positionR.h / 2;//center of card
 	
 	Point difference = { buffP.x - this->x, buffP.y - this->y };
 
 	//if we are at least one coordinate closer to the end - we finish
-	if (difference.x == 0 || /*&& */difference.y == 0)
+	if (difference.x == 0 || difference.y == 0)
 		return true;
 
 	//calculating the distance between points
 	float distance = sqrt(difference.x * difference.x + difference.y * difference.y);
-	if (distance < 10)//coordinate deviation for the end point
+	if (distance < deviation_card_coord)//coordinate v for the end point
 		return true;
 	float coefficientX = difference.x / distance;
 	float coefficientY = difference.y / distance;
@@ -64,8 +83,8 @@ void Card::Draw(SDL_Renderer* render) {
 	UpdateRect();
 	SDL_RenderCopyEx(render,
 		(isUpsideDown) ? 
-			suitTexture[skin - 80].get() :
-			topTexture[skin - 80].get(),
+			suitTexture[skin - card_additional_top_index]/*.get()*/ :
+			topTexture[skin - card_additional_top_index]/*.get()*/,
 		NULL,
 		&positionR,
 		angleRotaton,
@@ -76,7 +95,9 @@ void Card::Draw(SDL_Renderer* render) {
 void Card::SetScaleTexture(const float& scale) {
 	this->scale = scale;
 
-	SDL_QueryTexture(topTexture[skin-80].get(), NULL, NULL, &positionR.w, &positionR.h);
+	SDL_QueryTexture(topTexture[skin - card_additional_top_index]/*.get()*/,
+		NULL, NULL, 
+		&positionR.w, &positionR.h);
 
 	positionR.w *= scale;
 	positionR.h *= scale;
@@ -84,7 +105,7 @@ void Card::SetScaleTexture(const float& scale) {
 
 void Card::SetScaleTextureByScreen(const int& screenWidth) {
 	int buffSize = positionR.w;
-		positionR.w = screenWidth / 11;
+		positionR.w = Card_Width_byScreen(screenWidth);
 		scale = (float)positionR.w / buffSize;
 		positionR.h *= scale;
 };
@@ -99,15 +120,15 @@ void Card::MoveToCoord(Coordinate x, Coordinate y) {
 void Card::SetPlacement(ScreenPlacement sp) {
 	switch (sp) {
 	case CARD_PLACE_DEFAULT:
-		angleRotaton = 0;
+		angleRotaton = card_angle_default;
 		break;
 
 	case CARD_PLACE_RIGHT:
-		angleRotaton = 270;
+		angleRotaton = card_angle_right;
 		break;
 
 	case CARD_PLACE_LEFT:
-		angleRotaton = 90;
+		angleRotaton = card_angle_left;
 		break;
 	}
 };
@@ -124,30 +145,36 @@ void Card::InitTexture(SDL_Renderer* render) {
 
 	switch (suit) {
 	case CARD_SUIT_SPADE:
-		name = to_string(type - 100) + "_of_spades.png";
+		name = to_string(Card_NumberType_Get_Value(type)) + "_of_spades.png";
 		break;
 	case CARD_SUIT_CLUB:
-		name = to_string(type - 100) + "_of_clubs.png";
+		name = to_string(Card_NumberType_Get_Value(type)) + "_of_clubs.png";
 		break;
 	case CARD_SUIT_HEART:
-		name = to_string(type - 100) + "_of_hearts.png";
+		name = to_string(Card_NumberType_Get_Value(type)) + "_of_hearts.png";
 		break;
 	case CARD_SUIT_DIAMOND:
-		name = to_string(type - 100) + "_of_diamonds.png";
+		name = to_string(Card_NumberType_Get_Value(type)) + "_of_diamonds.png";
 		break;
 	}
 
-	for (int i = 0; i < 3; i++) {//ini all skins
+	for (int i = 0; i < card_type_skins_cnt; i++) {//init all skins
 		buffPatchT[i]= "Resource\\Images\\Cards skins\\" + skinFolder[i] + "\\" + name;
-		topTexture[i].reset( GameItems::LoadTexture(buffPatchT[i], render));
+		/*topTexture[i].reset( GameItems::LoadTexture(buffPatchT[i], render));*/
+		topTexture[i] = GameItems::LoadTexture(buffPatchT[i], render);
 		buffPatchS[i] = "Resource\\Images\\Cards skins\\" + skinFolder[i] + "\\" + "suit.png";
-		suitTexture[i].reset(GameItems::LoadTexture(buffPatchS[i], render));
+		/*suitTexture[i].reset(GameItems::LoadTexture(buffPatchS[i], render));*/
+		suitTexture[i] = GameItems::LoadTexture(buffPatchS[i], render);
 	}
 	
-	SDL_QueryTexture(topTexture[0].get(), NULL, NULL, &positionR.w, &positionR.h);
+	SDL_QueryTexture(topTexture[0]/*.get()*/, NULL, NULL, &positionR.w, &positionR.h);
 	positionR.w *= scale;
 	positionR.h *= scale;
 };
+
+void Card::SetRender(SDL_Renderer* render) {
+	InitTexture(render);
+}
 
 int& Card::GetSuit() {
 	return suit;
@@ -163,13 +190,13 @@ bool& Card::IsUpsideDown() {
 
 int Card::GetValue() {
 	if (type <= CARD_TYPE_TEN)
-		return type-100;
+		return Card_NumberType_Get_Value(type);
 
 	else if (type == CARD_TYPE_ACE)
-		return 0;
+		return card_null_point;
 
 	else
-		return 10;
+		return card_face_type_points;
 };
 
 SDL_Rect& Card::GetRectOnScreen() {

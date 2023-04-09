@@ -4,6 +4,21 @@
 #include "Chip.h"
 #include "Tittles.h"
 
+#define LACK_OF_CARDS -1
+
+
+constexpr int first_stack_chips = 5;
+constexpr int second_stack_chips = 10;
+
+constexpr int chips_column_distance = 10;
+constexpr int chip_default_price = 200;
+constexpr int chip_free_price = 0;
+
+constexpr int card_value_tittle_size = 40;
+constexpr FPoint card_value_def_coords = { -100, -100 };
+
+constexpr SDL_Color card_value_tittle_color = { 0,255,255,255 };
+
 
 class Player {
 
@@ -22,7 +37,7 @@ class Player {
 	Tittle playerTittle;
 
 	int cash{ 0 };
-	vector<Chip> betChips;
+	list<Chip> betChips;
 
 	void AddCash(const int& cash);
 	void SubCash(const int& cash);
@@ -47,10 +62,11 @@ public:
 	bool SubChip(const bool& isCash=true);
 	void AddCard(const Card& card);
 	void ConvertChipToCash();
+
 	void PlayerCardsCentered();
 	void DiscardCards();
-
 	void CardsUpatePlacement(bool allCards = false);
+	void RemoveTittle();
 
 	void SetBet(const bool& isMadeBet);
 	void SetStand(const bool& isStand);
@@ -78,7 +94,7 @@ public:
 	int& GetAcesCount();
 	int& GetCash();
 	int GetChipsCount();
-	//Chip GetChip();
+	Chip GetChip();
 
 	void DrawCards(SDL_Renderer* render);
 	void DrawChips(SDL_Renderer* render);

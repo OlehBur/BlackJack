@@ -3,9 +3,12 @@
 #include "GameItems.h"
 
 
+constexpr float chip_texture_scale = 1 / 2.0f;
+
+
 class Chip : public GameItems {
 
-	static unique_ptr <SDL_Texture, SDL_TxtrDeleter> chipTextrue;
+	/*unique_ptr <SDL_Texture, SDL_TxtrDeleter>*/SDL_Texture* chipTextrue;
 	SDL_Rect positionR{ NULL }, 
 		textureR{ NULL };
 	bool isDealerChip{ false };
@@ -14,6 +17,7 @@ class Chip : public GameItems {
 	
 public:
 
+	//Chip(const Chip& chip);
 	Chip(const bool& isDealerChip, SDL_Renderer* render);
 	//void Destructor_Chip();
 

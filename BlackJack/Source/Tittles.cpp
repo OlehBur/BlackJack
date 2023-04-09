@@ -26,7 +26,7 @@ Tittle::Tittle(const string& str, SDL_Renderer* render,
 void Tittle::UpdateRect() {
 	if (textS)
 		textR = {
-		(int)x - textS->w / 2,
+		(int)x - textS->w / 2,//left bord of tittle field
 		(int)y - textS->h / 2,
 		textS->w,
 		textS->h
@@ -40,8 +40,8 @@ void Tittle::InitFont(SDL_Renderer* render,
 
 	MoveToCoord(x, y);
 
-	int outlineSize = ((sizeText / 30) < 1) ?
-		1 : sizeText / 30;
+	int outlineSize = ((sizeText / tittle_default_text_size) < tittle_minimal_outline_size) ?
+		tittle_minimal_outline_size : sizeText / tittle_default_text_size;
 
 	appFont.reset(TTF_OpenFont(fontPath.c_str(), sizeText));
 	outlineFont.reset(TTF_OpenFont(fontPath.c_str(), sizeText));

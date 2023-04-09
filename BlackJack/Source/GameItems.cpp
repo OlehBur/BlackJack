@@ -14,8 +14,8 @@ void GameItems::DrawText(SDL_Renderer* render,
 
 	SDL_Rect textR{ NULL };
 	
-	int outlineSize = ((sizeText / 40)<1)?
-		1 : sizeText / 40;
+	int outlineSize = ((sizeText / item_text_size) < item_outline_min_size) ?
+		item_outline_min_size : sizeText / item_text_size;
 	
 	//create fonts
 	appFont.reset(TTF_OpenFont(fontPath.c_str(), sizeText));
@@ -24,11 +24,11 @@ void GameItems::DrawText(SDL_Renderer* render,
 	TTF_SetFontOutline(outlineFont.get(), outlineSize);
 
 	//create text render
-	outlineS.reset(TTF_RenderText_Blended(outlineFont.get(), str.c_str(), { 102,0,0, 255 }));
-	textS.reset(TTF_RenderText_Solid(appFont.get(), str.c_str(), { 204,102,0,255 }));
+	outlineS.reset(TTF_RenderText_Blended(outlineFont.get(), str.c_str(), item_text_color));
+	textS.reset(TTF_RenderText_Solid(appFont.get(), str.c_str(), item_outline_color));
 	//get new parametres for rect 
 	textR = { 
-		x- textS->w/2,
+		x- textS->w/2,//left bord of text field
 		y- textS->h/2, 
 		textS->w, 
 		textS->h 

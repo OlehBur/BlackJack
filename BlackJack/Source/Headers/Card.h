@@ -72,13 +72,30 @@ typedef const int& CardType;
 #define CARD_TYPE_ACE			114
 
 
+#define Card_Width_byScreen(screenWidth) (screenWidth/11)
+
+#define Card_NumberType_Get_Value(indexType) (indexType - card_additional_suit_index)
+
+constexpr int deviation_card_coord = 10;
+
+constexpr int card_type_skins_cnt = 3;
+constexpr int card_additional_top_index = 80;
+constexpr int card_additional_suit_index = 100;
+
+constexpr int card_angle_default = 0;
+constexpr int card_angle_left = 90;
+constexpr int card_angle_right = 270;
+
+constexpr int card_face_type_points = 10;
+constexpr int card_null_point = 0;
+
 
 class Card : public GameItems {
+	/*unique_ptr <SDL_Texture, SDL_TxtrDeleter>*/SDL_Texture* topTexture[3],
+		*suitTexture[3];
+
 	int suit{ 0 }, type{ 0 };
-	
 	float scale{ 0.5f };
-	unique_ptr <SDL_Texture, SDL_TxtrDeleter> topTexture[3],
-		suitTexture[3];
 	bool isUpsideDown = true;
 	SDL_Rect positionR{ NULL };
 	float angleRotaton = 0.0f;
@@ -88,6 +105,7 @@ class Card : public GameItems {
 	void UpdateRect();
 
 public:
+	//Card(const Card& card);
 	Card(SuitType suit, CardType card,
 		SDL_Renderer* render, 
 		ScreenPlacement sp = CARD_PLACE_DEFAULT,
@@ -95,6 +113,7 @@ public:
 	//void /*~Card*/Destructor_Card();
 
 	void InitTexture(SDL_Renderer* render);
+	void SetRender(SDL_Renderer* render);
 
 	/*
 	return true if card coordinates have reached end point 
@@ -123,5 +142,5 @@ public:
 
 	bool operator<(Card& card);
 	bool operator>(Card& card);
-	void operator=(Card card);
+	void operator=(Card card);	
 };

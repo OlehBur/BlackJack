@@ -1,10 +1,11 @@
 #include "Headers/Chip.h"
 
 bool Chip::InitTextures(SDL_Renderer* render) {
-	chipTextrue.reset(GameItems::LoadTexture("Resource\\Images\\Chips\\chips.png", render));
-	SDL_QueryTexture(chipTextrue.get(), NULL, NULL, &textureR.w, &textureR.h);
+	//chipTextrue.reset(GameItems::LoadTexture("Resource\\Images\\Chips\\chips.png", render));
+	chipTextrue = GameItems::LoadTexture("Resource\\Images\\Chips\\chips.png", render);
+	SDL_QueryTexture(chipTextrue/*.get()*/, NULL, NULL, &textureR.w, &textureR.h);
 
-	textureR.w /= 2;
+	textureR.w *= chip_texture_scale;//centered texture
 
 	if (isDealerChip)
 		textureR.x = textureR.y = 0;
@@ -19,6 +20,14 @@ bool Chip::InitTextures(SDL_Renderer* render) {
 		true :
 		false;
 };
+
+
+//Chip::Chip(const Chip& chip) {
+//	isDealerChip = chip.isDealerChip;
+//
+//	/*chipTextrue.reset(chip.chipTextrue.get());*/
+//	chipTextrue=chip.chipTextrue;
+//};
 
 Chip::Chip(const bool& isDealerChip, SDL_Renderer* render) {
 	this->isDealerChip = isDealerChip;
@@ -36,10 +45,10 @@ bool& Chip::IsDealerChip() {
 };
 
 void Chip::UpdateRect() {
-	positionR.w = textureR.w/2;//scale
-	positionR.h = textureR.h/2;
-	positionR.x = x - positionR.w / 2;
-	positionR.y = y - positionR.h / 2;
+	positionR.w = textureR.w * chip_texture_scale;
+	positionR.h = textureR.h * chip_texture_scale;
+	positionR.x = x - positionR.w * chip_texture_scale;
+	positionR.y = y - positionR.h * chip_texture_scale;
 };
 
 void Chip::MoveToCoord(Coordinate x, Coordinate y) {
@@ -49,7 +58,7 @@ void Chip::MoveToCoord(Coordinate x, Coordinate y) {
 
 void Chip::Draw(SDL_Renderer* render) {
 	SDL_RenderCopy(render,
-		chipTextrue.get(),
+		chipTextrue/*.get()*/,
 		&textureR,
 		&positionR);
 }

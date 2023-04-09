@@ -17,6 +17,10 @@ enum class ClickedButton { HIT, STAND, CASH_PLUS, CASH_MINUS, CASH, HELP, CHANGE
 #define BUTTON_TYPE_NOTHING			ClickedButton::NOTHING
 
 
+#define Button_Click_Texture_H(heightTexture) (heightTexture/3)*2
+#define Button_Default_Texture_H(heightTexture) (heightTexture/3)
+
+
 
 class Button {
 	ClickedButton type;

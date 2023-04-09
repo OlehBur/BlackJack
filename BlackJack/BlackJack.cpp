@@ -4,6 +4,9 @@
 #include "Source/Headers/Card.h"
 
 
+constexpr int mouse_area_width = 1;
+
+
 int main(int argc, char** argv)
 {
 	int mouseX, mouseY;
@@ -22,17 +25,17 @@ int main(int argc, char** argv)
 
 			case SDL_MOUSEMOTION:
 				SDL_GetMouseState(&mouseX, &mouseY);
-				BlackJack.MouseActivity({ mouseX, mouseY, 1, 1 }, false);
+				BlackJack.MouseActivity({ mouseX, mouseY, mouse_area_width, mouse_area_width }, false);
 				break;
 
 			case SDL_MOUSEBUTTONDOWN:
 				SDL_GetMouseState(&mouseX, &mouseY);
-				BlackJack.MouseActivity({ mouseX, mouseY, 1, 1 }, true);
+				BlackJack.MouseActivity({ mouseX, mouseY, mouse_area_width, mouse_area_width }, true);
 				break;
 
 			case SDL_MOUSEBUTTONUP:
 				SDL_GetMouseState(&mouseX, &mouseY);
-				BlackJack.MouseActivity({ mouseX, mouseY, 1, 1 }, false);
+				BlackJack.MouseActivity({ mouseX, mouseY, mouse_area_width, mouse_area_width }, false);
 				break;
 			}
 		}

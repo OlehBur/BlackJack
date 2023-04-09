@@ -24,7 +24,11 @@
 #define TITTLE_GAME_END			41
 
 
-
+constexpr SDL_Color tittle_text_color = { 204, 102, 0, 255 };
+constexpr SDL_Color tittle_outline_color = { 102, 0, 0, 255 };
+constexpr int tittle_default_text_size = 30;
+constexpr int tittle_minimal_outline_size = 1;
+ 
 class Tittle : public GameItems {
 	unique_ptr <SDL_Surface, SDL_SrfcDeleter> textS,
 		outlineS;
@@ -55,8 +59,8 @@ public:
 	/*return false if tittle isnt Init*/
 	bool SetText(const string& str, 
 		SDL_Renderer* render, 
-		const SDL_Color& fontColor = { 204, 102, 0, 255 },
-		const SDL_Color& colorOutline = { 102,0,0, 255 });
+		const SDL_Color& fontColor = tittle_text_color,
+		const SDL_Color& colorOutline = tittle_outline_color);
 	string& GetText();
 
 	void Draw(SDL_Renderer* render);

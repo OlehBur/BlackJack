@@ -12,7 +12,7 @@ void Button::InitTexture() {
 	buttonTextureH = textureR.h;
 
 	textureR.y = textureR.x = 0;
-	textureR.h = buttonTextureH / 3;
+	textureR.h = Button_Default_Texture_H(buttonTextureH);
 	textureR.w = buttonTextureW;
 
 	positionR.x = 0;
@@ -52,7 +52,7 @@ void Button::SetCoord(Coordinate x, Coordinate y) {
 	positionR.x = x;
 	positionR.y = y;
 
-	tittle.MoveToCoord(x + positionR.w / 2, y + positionR.h / 2);
+	tittle.MoveToCoord(x + positionR.w / 2, y + positionR.h / 2);//centered tittle field
 };
 
 void Button::SetTittle(const string& tittle, SDL_Renderer * render) {
@@ -66,7 +66,7 @@ bool Button::Interact(const SDL_Rect& mousePos, const bool& isClick) {
 
 		if (isClick) {
 			isClicked = true;
-			textureR.y = (buttonTextureH / 3) * 2;
+			textureR.y = Button_Click_Texture_H(buttonTextureH);
 			currentButtonClicked = type;
 			return true;
 		}
@@ -74,7 +74,7 @@ bool Button::Interact(const SDL_Rect& mousePos, const bool& isClick) {
 	}
 	else {
 		isSelected = false;
-		textureR.y = buttonTextureH/3;
+		textureR.y = Button_Default_Texture_H(buttonTextureH);
 	}
 	return false;
 };
